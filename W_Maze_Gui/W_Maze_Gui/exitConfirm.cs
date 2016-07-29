@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace W_Maze_Gui
 {
-    public partial class exitConfirm : Form
+    public partial class ExitConfirm : Form
     {
-        public exitConfirm()
+        public ExitConfirm()
         {
             InitializeComponent();
         }
@@ -26,7 +26,7 @@ namespace W_Maze_Gui
         }
         private void RejectButtonClick(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
     

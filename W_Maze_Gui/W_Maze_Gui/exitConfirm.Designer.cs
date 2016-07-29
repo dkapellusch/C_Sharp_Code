@@ -1,6 +1,6 @@
 ﻿namespace W_Maze_Gui
 {
-    public partial class exitConfirm
+    public partial class ExitConfirm
     {
         /// <summary>
         /// Required designer variable.
@@ -67,7 +67,7 @@
             this.exitWarning.TabIndex = 2;
             this.exitWarning.Text = "Are you sure you want to exit?";
             // 
-            // exitConfirm
+            // ExitConfirm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -75,8 +75,8 @@
             this.Controls.Add(this.exitWarning);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.confirmExit);
-            this.Name = "exitConfirm";
-            this.Text = "exitConfirm";
+            this.Name = "ExitConfirm";
+            this.Text = "ExitConfirm";
             this.Load += new System.EventHandler(this.exitConfirm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

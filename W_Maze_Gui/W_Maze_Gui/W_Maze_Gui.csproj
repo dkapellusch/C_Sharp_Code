@@ -72,8 +72,9 @@
     <Compile Include="exitConfirm.Designer.cs">
       <DependentUpon>exitConfirm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormConsole.cs" />
     <Compile Include="W_Maze_Gui.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="W_Maze_Gui.Designer.cs">
       <DependentUpon>W_Maze_Gui.cs</DependentUpon>
