@@ -36,9 +36,6 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
-            // timer1
-            // 
-            // 
             // textBox1
             // 
             this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(58)))), ((int)(((byte)(58)))));
@@ -72,6 +69,7 @@
             this.stopButton.TabIndex = 2;
             this.stopButton.Text = "Stop";
             this.stopButton.UseVisualStyleBackColor = false;
+            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
             // 
             // comboBox1
             // 

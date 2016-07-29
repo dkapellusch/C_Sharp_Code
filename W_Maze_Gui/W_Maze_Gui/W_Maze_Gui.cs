@@ -9,25 +9,52 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+using System.IO;
 namespace W_Maze_Gui
 {
+    public static class FormConsole
+    {
+        [DllImport("kernel32.dll",
+                 EntryPoint = "GetStdHandle",
+                 SetLastError = true,
+                 CharSet = CharSet.Auto,
+                 CallingConvention = CallingConvention.StdCall)]
+        private static extern IntPtr GetStdHandle(int nStdHandle);
+
+        [DllImport("kernel32.dll",
+            EntryPoint = "AllocConsole",
+            SetLastError = true,
+            CharSet = CharSet.Auto,
+            CallingConvention = CallingConvention.StdCall)]
+        private static extern int AllocConsole();
+        private const int STD_OUTPUT_HANDLE = -11;
+        private const int MY_CODE_PAGE = 437;
+        public static void configureConsole()
+        {
+            AllocConsole();
+            IntPtr stdHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+            SafeFileHandle safeFileHandle = new SafeFileHandle(stdHandle, true);
+            FileStream fileStream = new FileStream(safeFileHandle, FileAccess.Write);
+            Encoding encoding = System.Text.Encoding.GetEncoding(MY_CODE_PAGE);
+            StreamWriter standardOutput = new StreamWriter(fileStream, encoding);
+            standardOutput.AutoFlush = true;
+        }
+    }
     public partial class W_Maze_Gui : Form
     {
-        public Form exitConfirm = new Form();
+        private Form exitConfirm = new exitConfirm();
         private bool _exiting = false;
+
+
         public W_Maze_Gui()
         {
+            FormConsole.configureConsole();
+            
+            Console.WriteLine("Please write");
 
             InitializeComponent();
-
-            //Setting start and stop button fonts
-            this.startButton.Font = new Font(startButton.Font, FontStyle.Bold);
-            this.startButton.ForeColor = Color.FromArgb(0, 71, 0);
-
-            this.stopButton.Font = new Font(stopButton.Font, FontStyle.Bold);
-            this.stopButton.ForeColor = Color.FromArgb(50, 0, 0);
-
-            this.comboBox1.Items.Add("Rat 2012");
         }
 
         private void W_Maze_Gui_Load(object sender, EventArgs e)
@@ -45,47 +72,22 @@ namespace W_Maze_Gui
 
         }
 
-        private void ConfirmButtonClick(object sender, EventArgs e)
-        {
-            _exiting = true;
-            Application.Exit();
-        }
-
-        private void RejectButtonClick(object sender, EventArgs e)
-        {
-            exitConfirm.Close();
-        }
         private void W_Maze_Gui_FormClosing(object sender, FormClosingEventArgs e)
         {
             if (!_exiting)
             {
-                exitConfirm.Size = new Size(100, 150);
+                _exiting = true;
                 exitConfirm.StartPosition = FormStartPosition.CenterParent;
-
-                Button confirmButton = new Button();
-                Button rejectButton = new Button();
-                TextBox confirmClose = new TextBox();
-
-                exitConfirm.Controls.Add(confirmButton);
-                exitConfirm.Controls.Add(rejectButton);
-                exitConfirm.Controls.Add(confirmClose);
-
-                confirmButton.Size = new Size(50, 50);
-                rejectButton.Size = new Size(50, 50);
-                confirmClose.Size = new Size(150, 100);
-                confirmButton.Location = new Point(5, 50);
-                rejectButton.Location = new Point(55, 50);
-
-                confirmButton.Text = "Yes";
-                rejectButton.Text = "No";
-                confirmClose.Text = "Close Without Saving?";
-
-                confirmButton.Click += new EventHandler(ConfirmButtonClick);
-                rejectButton.Click += new EventHandler(RejectButtonClick);
-
                 exitConfirm.ShowDialog();
                 e.Cancel = true;
+
+                _exiting = false;
             }
+
+        }
+
+        private void stopButton_Click(object sender, EventArgs e)
+        {
 
         }
     }
