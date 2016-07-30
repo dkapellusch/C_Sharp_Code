@@ -4,13 +4,13 @@ using System.Windows.Forms;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+//using UnityEngine;
 
 namespace W_Maze_Gui
 {
     public partial class W_Maze_Gui : Form
     {
         private int elapsed_time;
-
         private bool _exiting;
         private readonly Form exitConfirm = new ExitConfirm();
 
@@ -56,7 +56,18 @@ namespace W_Maze_Gui
                 _exiting = false;
             }
         }
-
+        //public class PicTimer : MonoBehaviour
+       // {
+            //float time = 5f; //Seconds to see the pic
+            //void Start()
+            //{
+                //invoke("Hide", time);
+            //}
+            //void Hide()
+            //{
+                //Destroy(startUpImage);
+            //}
+        //}
         private void stopButton_Click(object sender, EventArgs e)
         {
             startButton.ForeColor = Color.FromArgb(0, 40, 0);
@@ -76,6 +87,16 @@ namespace W_Maze_Gui
         {
             elapsed_time += 1;
             updateTime();
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
+        {
 
         }
     }
