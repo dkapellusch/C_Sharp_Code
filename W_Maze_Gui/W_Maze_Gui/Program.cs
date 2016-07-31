@@ -17,8 +17,7 @@ namespace W_Maze_Gui
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            Application.Run(new W_Maze_Gui());
+            Application.Run(new SplashScreen());
         }
     }
 }

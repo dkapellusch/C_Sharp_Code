@@ -73,6 +73,13 @@
       <DependentUpon>exitConfirm.cs</DependentUpon>
     </Compile>
     <Compile Include="FormConsole.cs" />
+    <Compile Include="splashMonitor.cs" />
+    <Compile Include="SplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SplashScreen.Designer.cs">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </Compile>
     <Compile Include="W_Maze_Gui.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,6 +91,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="exitConfirm.resx">
       <DependentUpon>exitConfirm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplashScreen.resx">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="W_Maze_Gui.resx">
       <DependentUpon>W_Maze_Gui.cs</DependentUpon>
