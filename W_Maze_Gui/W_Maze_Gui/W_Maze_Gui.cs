@@ -20,11 +20,11 @@ namespace W_Maze_Gui
         private List<string> ratSession = new List<string>();
         private Dictionary<string, string> ageDic = new Dictionary<string, string>();
         private Dictionary<string, int> sessionDic = new Dictionary<string, int>();
+        private bool selection = false;
         
 
-        
         public W_Maze_Gui()
-        { 
+        {
             var csvReader = new StreamReader(File.OpenRead("RatData.csv"));
             while (!csvReader.EndOfStream)
             {
@@ -45,13 +45,26 @@ namespace W_Maze_Gui
      
         private void SelectionChangeCommitted(object sender, EventArgs e)
         {
-            var chosenRat = ratName[RatSelection.SelectedIndex];
-            ageLabel.Text = ageDic[chosenRat];
-            sessionLabel.Text = sessionDic[chosenRat].ToString();
+            if (!selection){
+                var chosenRat = ratName[RatSelection.SelectedIndex];
+                ageLabel.Text = ageDic[chosenRat];
+                sessionLabel.Text = sessionDic[chosenRat].ToString();
+                //var sessionWriter = CsvFiles.sessionCsv(chosenRat);
+                //var timestampWriter = CsvFiles.timestampCsv(chosenRat);
+            }
+        }
+        private void SelectButtonClick(object sender, EventArgs e)
+        {
+            selectButton.Hide();
+            selection = true;
+            RatSelection.Hide();
+            ratSelectionLabel.Text = $"{ratName[RatSelection.SelectedIndex]}";
+            
         }
         private void SaveButtonClick(object sender, EventArgs e)
         {
             saveButton.ForeColor = Color.DarkGray;
+           
 
         }
 
