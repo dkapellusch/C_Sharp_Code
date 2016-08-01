@@ -5,10 +5,12 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-//using UnityEngine;
+using System.ComponentModel;
+using System.IO.Ports;
 
 namespace W_Maze_Gui
 {
+
     public partial class W_Maze_Gui : Form
     {
 
@@ -20,8 +22,13 @@ namespace W_Maze_Gui
         private List<string> ratSession = new List<string>();
         private Dictionary<string, string> ageDic = new Dictionary<string, string>();
         private Dictionary<string, int> sessionDic = new Dictionary<string, int>();
-        private bool selection = false;
-        
+        private static SerialPort serialPort = new SerialPort();
+        private static int correctCnt;
+        private static int inboundCnt;
+        private static int outboundCnt;
+        private static int repeatCnt;
+        private static int initialCnt;
+        private static BackgroundWorker bw = new BackgroundWorker();
 
         public W_Maze_Gui()
         {
@@ -34,38 +41,86 @@ namespace W_Maze_Gui
                 sessionDic.Add(vals[0], Int32.Parse(vals[2]));
                 ratName.Add(vals[0]);
             }
+            serialPort.BaudRate = 9600;
+            serialPort.PortName = "COM3";
+            serialPort.Open();
+            FormConsole.configureConsole();
+            while (true)
+            {
+                Console.WriteLine(serialPort.ReadLine());
+            }
+            bw.DoWork += do_work;
+            bw.RunWorkerCompleted += run_worker_completed;
+            bw.RunWorkerAsync();
+
             InitializeComponent();
             foreach (var rat in ratName) this.RatSelection.Items.Add(rat);
             
         }
 
+        private void run_worker_completed(object sender, RunWorkerCompletedEventArgs e)
+        {
+            correctNum.Text = e.Result.ToString();
+        }
+
+        private void do_work(object sender, DoWorkEventArgs e)
+        {
+            var received = serialPort.ReadTo("\n");
+            e.Result = "200";
+            var messageType = received.Substring(0, 1);
+            switch (messageType)
+            {
+                case "c":
+                    correctCnt++;
+                    correctNum.Text = correctCnt.ToString();
+                    break;
+                case "i":
+                    inboundCnt++;
+                    inboundNum.Text = inboundCnt.ToString();
+                    break;
+                case "o":
+                    outboundCnt++;
+                    outboundNum.Text = outboundCnt.ToString();
+                    break;
+                case "r":
+                    repeatCnt++;
+                    repeatNum.Text = repeatCnt.ToString();
+                    break;
+                case "b":
+                    initialCnt++;
+                    initialNum.Text = initialCnt.ToString();
+                    break;
+            }
+            var errCnt = inboundCnt + outboundCnt + repeatCnt + initialCnt;
+            totalErrNum.Text = (errCnt).ToString();
+            totalNum.Text = (errCnt + correctCnt).ToString();
+        }
+
         private void W_Maze_Gui_Load(object sender, EventArgs e)
         {
-        }
-     
-        private void SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            if (!selection){
-                var chosenRat = ratName[RatSelection.SelectedIndex];
-                ageLabel.Text = ageDic[chosenRat];
-                sessionLabel.Text = sessionDic[chosenRat].ToString();
-                //var sessionWriter = CsvFiles.sessionCsv(chosenRat);
-                //var timestampWriter = CsvFiles.timestampCsv(chosenRat);
-            }
         }
         private void SelectButtonClick(object sender, EventArgs e)
         {
             selectButton.Hide();
-            selection = true;
             RatSelection.Hide();
             ratSelectionLabel.Text = $"{ratName[RatSelection.SelectedIndex]}";
-            
+            var chosenRat = ratName[RatSelection.SelectedIndex];
+            ageLabel.Text = ageDic[chosenRat];
+            sessionLabel.Text = sessionDic[chosenRat].ToString();
+            CsvFiles.openSessionCsv(chosenRat);
+            CsvFiles.openTimestampCsv(chosenRat);
+
         }
+        
         private void SaveButtonClick(object sender, EventArgs e)
         {
             saveButton.ForeColor = Color.DarkGray;
-           
-
+            CsvFiles.sessionCsv.Write($"{sessionLabel.Text},{experimenterBox.Text},{DateTime.Now.ToString()},{display_time.Text},{correctNum.Text},{initialNum.Text},{outboundNum.Text},{inboundNum.Text},{repeatNum.Text},{totalErrNum.Text},{totalNum.Text},{notesBox.Text};");
+            CsvFiles.close();
+            startButton.Hide();
+            stopButton.Hide();
+            experimenterBox.Enabled = false;
+            notesBox.Enabled = false;
         }
 
         private void StartButtonClick(object sender, EventArgs e)

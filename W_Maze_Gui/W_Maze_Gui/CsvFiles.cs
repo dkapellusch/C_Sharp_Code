@@ -11,13 +11,12 @@ namespace W_Maze_Gui
     {
         public static StreamWriter sessionCsv;
         public static StreamWriter timestampCsv;
-        public static StreamWriter openSessionCsv(string number)
+        public static void openSessionCsv(string number)
         {
            
-            sessionCsv = new StreamWriter(File.OpenWrite($"SessionInfo_{number}.csv"));
-            return sessionCsv;
+            sessionCsv = new StreamWriter(($"SessionInfo_{number}.csv"),true);
         }
-        public static StreamWriter openTimestampCsv(string number)
+        public static void openTimestampCsv(string number)
         {
             timestampCsv = new StreamWriter(File.OpenWrite($"TimeStamps_{number}_{DateTime.Today.ToString().Replace("/", "")}"));
             return timestampCsv;
