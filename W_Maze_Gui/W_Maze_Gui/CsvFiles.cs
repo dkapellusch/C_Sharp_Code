@@ -19,7 +19,11 @@ namespace W_Maze_Gui
         public static void openTimestampCsv(string number)
         {
             timestampCsv = new StreamWriter(File.OpenWrite($"TimeStamps_{number}_{DateTime.Today.ToString().Replace("/", "")}"));
-            return timestampCsv;
+        }
+        public static void close()
+        {
+            sessionCsv.Close();
+            timestampCsv.Close();
         }
 
     }
