@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.ComponentModel;
 using System.IO.Ports;
+using System.Linq;
+using System.Text;
 
 namespace W_Maze_Gui
 {
@@ -16,23 +18,28 @@ namespace W_Maze_Gui
 
         private int elapsed_time;
         private bool _exiting;
+        private bool ratWasChosen = false;
         private readonly Form exitConfirm = new ExitConfirm();
         private List<string> ratName = new List<string>();
         private List<string> ratAge = new List<string>();
         private List<string> ratSession = new List<string>();
         private Dictionary<string, string> ageDic = new Dictionary<string, string>();
         private Dictionary<string, int> sessionDic = new Dictionary<string, int>();
-        private static SerialPort serialPort = new SerialPort();
-        private static int correctCnt;
-        private static int inboundCnt;
-        private static int outboundCnt;
-        private static int repeatCnt;
-        private static int initialCnt;
-        private static BackgroundWorker bw = new BackgroundWorker();
+        private SerialPort serialPort = new SerialPort();
+        public BackgroundWorker felix = new BackgroundWorker();
+        public int correctCnt;
+        public int inboundCnt;
+        public int outboundCnt;
+        public int repeatCnt;
+        public int initialCnt;
 
         public W_Maze_Gui()
         {
+            serialPort.BaudRate = 9600;
+            serialPort.PortName = "COM3";
+            serialPort.Open();
             var csvReader = new StreamReader(File.OpenRead("RatData.csv"));
+            var csvWriter = new StreamWriter(File.OpenWrite("RatData.csv"));
             while (!csvReader.EndOfStream)
             {
                 var line = csvReader.ReadLine();
@@ -41,59 +48,65 @@ namespace W_Maze_Gui
                 sessionDic.Add(vals[0], Int32.Parse(vals[2]));
                 ratName.Add(vals[0]);
             }
-            serialPort.BaudRate = 9600;
-            serialPort.PortName = "COM3";
-            serialPort.Open();
-            FormConsole.configureConsole();
-            while (true)
-            {
-                Console.WriteLine(serialPort.ReadLine());
-            }
-            bw.DoWork += do_work;
-            bw.RunWorkerCompleted += run_worker_completed;
-            bw.RunWorkerAsync();
 
+            felix.DoWork += listen_to_arduino;
+            felix.RunWorkerCompleted += run_worker_completed;
+
+            felix.RunWorkerAsync();
             InitializeComponent();
             foreach (var rat in ratName) this.RatSelection.Items.Add(rat);
-            
+
         }
 
-        private void run_worker_completed(object sender, RunWorkerCompletedEventArgs e)
-        {
-            correctNum.Text = e.Result.ToString();
-        }
 
-        private void do_work(object sender, DoWorkEventArgs e)
+        public void run_worker_completed(object sender, RunWorkerCompletedEventArgs e)
         {
-            var received = serialPort.ReadTo("\n");
-            e.Result = "200";
-            var messageType = received.Substring(0, 1);
-            switch (messageType)
+            if (!e.Cancelled && e.Error == null && e.Result != null)
             {
-                case "c":
-                    correctCnt++;
-                    correctNum.Text = correctCnt.ToString();
-                    break;
-                case "i":
-                    inboundCnt++;
-                    inboundNum.Text = inboundCnt.ToString();
-                    break;
-                case "o":
-                    outboundCnt++;
-                    outboundNum.Text = outboundCnt.ToString();
-                    break;
-                case "r":
-                    repeatCnt++;
-                    repeatNum.Text = repeatCnt.ToString();
-                    break;
-                case "b":
-                    initialCnt++;
-                    initialNum.Text = initialCnt.ToString();
-                    break;
+
+                var messageType = e.Result.ToString().Substring(0, 1);
+                switch (messageType)
+                {
+                    case "c":
+                        correctCnt++;
+                        correctNum.Text = correctCnt.ToString();
+                        break;
+                    case "i":
+                        inboundCnt++;
+                        inboundNum.Text = inboundCnt.ToString();
+                        break;
+                    case "o":
+                        outboundCnt++;
+                        outboundNum.Text = outboundCnt.ToString();
+                        break;
+                    case "r":
+                        repeatCnt++;
+                        repeatNum.Text = repeatCnt.ToString();
+                        break;
+                    case "b":
+                        initialCnt++;
+                        initialNum.Text = initialCnt.ToString();
+                        break;
+
+                }
             }
-            var errCnt = inboundCnt + outboundCnt + repeatCnt + initialCnt;
-            totalErrNum.Text = (errCnt).ToString();
-            totalNum.Text = (errCnt + correctCnt).ToString();
+
+            if (!felix.IsBusy)
+                felix.RunWorkerAsync();
+
+        }
+        public void listen_to_arduino(object sender, DoWorkEventArgs e)
+        {
+
+            try
+            {
+                var changedData = serialPort.ReadTo("\n");
+
+                //InstanceOfUpdateGuiThings.OnDataChanged(changedData);
+                e.Result = changedData;
+            }
+            catch (Exception) { }
+
         }
 
         private void W_Maze_Gui_Load(object sender, EventArgs e)
@@ -108,14 +121,19 @@ namespace W_Maze_Gui
             ageLabel.Text = ageDic[chosenRat];
             sessionLabel.Text = sessionDic[chosenRat].ToString();
             CsvFiles.openSessionCsv(chosenRat);
-            CsvFiles.openTimestampCsv(chosenRat);
+            ratWasChosen = true;
+            csvWriter.Write()
+            //CsvFiles.openTimestampCsv(chosenRat);
 
         }
-        
+
         private void SaveButtonClick(object sender, EventArgs e)
         {
             saveButton.ForeColor = Color.DarkGray;
-            CsvFiles.sessionCsv.Write($"{sessionLabel.Text},{experimenterBox.Text},{DateTime.Now.ToString()},{display_time.Text},{correctNum.Text},{initialNum.Text},{outboundNum.Text},{inboundNum.Text},{repeatNum.Text},{totalErrNum.Text},{totalNum.Text},{notesBox.Text};");
+            CsvFiles.sessionCsv.Write($"{this.sessionLabel.Text},{this.experimenterBox.Text},{DateTime.Now.ToString()},{this.display_time.Text}," +
+            $"{this.correctNum.Text},{this.initialNum.Text},{this.outboundNum.Text},{this.inboundNum.Text},{this.repeatNum.Text},{this.totalErrNum.Text},{this.totalNum.Text}," +
+            $"{this.notesBox.Text}\n");
+
             CsvFiles.close();
             startButton.Hide();
             stopButton.Hide();
@@ -125,9 +143,13 @@ namespace W_Maze_Gui
 
         private void StartButtonClick(object sender, EventArgs e)
         {
-            startButton.ForeColor = Color.AliceBlue;
-            Recording_Time.Enabled = true;
-            updateTime();
+            if (ratWasChosen)
+            {
+                startButton.ForeColor = Color.AliceBlue;
+                Recording_Time.Enabled = true;
+                updateTime();
+            }
+            else;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -145,7 +167,7 @@ namespace W_Maze_Gui
                 _exiting = false;
             }
         }
-       
+
         private void stopButton_Click(object sender, EventArgs e)
         {
             startButton.ForeColor = Color.FromArgb(0, 40, 0);
@@ -177,5 +199,6 @@ namespace W_Maze_Gui
         {
 
         }
+
     }
 }

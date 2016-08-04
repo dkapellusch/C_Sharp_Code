@@ -650,7 +650,7 @@
         private System.Windows.Forms.Button selectButton;
         private System.Windows.Forms.Label ratSelectionLabel;
         private System.Windows.Forms.Label repeatNum;
-        private System.Windows.Forms.Label inboundNum;
+        public System.Windows.Forms.Label inboundNum;
         private System.Windows.Forms.Label outboundNum;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
