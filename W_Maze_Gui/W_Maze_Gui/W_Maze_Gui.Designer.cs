@@ -180,7 +180,6 @@
             this.Correct.TabIndex = 9;
             this.Correct.Text = "Correct:";
             this.Correct.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Correct.Click += new System.EventHandler(this.label3_Click);
             // 
             // totalIncorrect
             // 
