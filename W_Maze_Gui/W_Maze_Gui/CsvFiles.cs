@@ -35,14 +35,18 @@ namespace W_Maze_Gui
 
             
         }
-        public static void openTimestampCsv(string number)
+        public static void openTimestampCsv(string number, string session)
         {
-            //timestampCsv = new StreamWriter(File.OpenWrite($"TimeStamps_{number}_{DateTime.Today.ToString().Replace("/", "")}"));
+            if (!Directory.Exists($"C:\\Users\\Adele\\Documents\\Barnes Lab\\Wmaze\\RatData\\{number}\\TimeStamps"))
+                {
+                Directory.CreateDirectory($"C:\\Users\\Adele\\Documents\\Barnes Lab\\Wmaze\\RatData\\{number}\\TimeStamps");
+                }
+                timestampCsv = new StreamWriter($"C:\\Users\\Adele\\Documents\\Barnes Lab\\Wmaze\\RatData\\{number}\\TimeStamps\\TimeStamps_{number}_Session{session}.csv");
         }
         public static void close()
         {
             sessionCsv.Close();
-            //timestampCsv.Close();
+            timestampCsv.Close();
             ratdataWriter.Close();
         }
 
