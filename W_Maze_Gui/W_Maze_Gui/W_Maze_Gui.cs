@@ -41,9 +41,9 @@ namespace W_Maze_Gui
         public W_Maze_Gui()
         {
             CsvFiles.openRatDataCsv(); //open RatData.csv so we can read from it and access Rat info
-            //serialPort.BaudRate = 9600;
-            //serialPort.PortName = "COM3";
-            //serialPort.Open();
+            serialPort.BaudRate = 9600;
+            serialPort.PortName = "COM3";
+            serialPort.Open();
 
             while (!CsvFiles.ratdataReader.EndOfStream) //this reads the RatData.csv file and makes a dictionary for the ages and for the session number
             {
@@ -63,6 +63,9 @@ namespace W_Maze_Gui
             InitializeComponent();
             foreach (var rat in ratName) this.RatSelection.Items.Add(rat);
 
+        }
+        private void W_Maze_Gui_Load(object sender, EventArgs e)
+        {
         }
         public void listen_to_arduino(object sender, DoWorkEventArgs e) //The "listener" that is the mediator between the worker (Felix) and the updater
         {
@@ -113,9 +116,6 @@ namespace W_Maze_Gui
 
         }
 
-        private void W_Maze_Gui_Load(object sender, EventArgs e)
-        {
-        }
         private void SelectButtonClick(object sender, EventArgs e)//When you click "Select" you lock in the rat number and info
         {
             selectButton.Hide();
@@ -136,7 +136,7 @@ namespace W_Maze_Gui
                 CsvFiles.ratdataWriter.Write($"{ratname},{name_to_age[ratname]},{name_to_session[ratname]}\n");
             }
             sessionNumber = (name_to_session[chosenRat]).ToString();
-            CsvFiles.openTimestampCsv(chosenRat,sessionNumber);
+            CsvFiles.openTimestampCsv(chosenRat, sessionNumber);
         }
 
         private void StartButtonClick(object sender, EventArgs e) //Clicking "Start" starts the timer and you can only start after you have selected a rat and locked it in
@@ -148,6 +148,8 @@ namespace W_Maze_Gui
                 updateTime();
             }
             else;
+            serialPort.Write("L".GetBytes(), 0, 1);
+            notesBox.AppendText($"{serialPort.ReadChar()} and stuff");
         }
 
         private void increment_time(object sender, EventArgs e)//Allows the timer to tick up
@@ -189,8 +191,8 @@ namespace W_Maze_Gui
                 Directory.CreateDirectory($"C:\\Users\\Adele\\Documents\\Barnes Lab\\Wmaze\\RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots");
             }
             var bmpScreenCapture = new Bitmap(this.Width, this.Height);
-            DrawToBitmap(bmpScreenCapture,new Rectangle(0, 0, bmpScreenCapture.Width, bmpScreenCapture.Height));
-            bmpScreenCapture.Save($"C:\\Users\\Adele\\Documents\\Barnes Lab\\Wmaze\\RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots\\GUIscreenshot_{ratName[RatSelection.SelectedIndex]}_Session{sessionNumber}.gif",ImageFormat.Gif);
+            DrawToBitmap(bmpScreenCapture, new Rectangle(0, 0, bmpScreenCapture.Width, bmpScreenCapture.Height));
+            bmpScreenCapture.Save($"C:\\Users\\Adele\\Documents\\Barnes Lab\\Wmaze\\RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots\\GUIscreenshot_{ratName[RatSelection.SelectedIndex]}_Session{sessionNumber}.gif", ImageFormat.Gif);
 
         }
         private void W_Maze_Gui_FormClosing(object sender, FormClosingEventArgs e) //Opens the exitConfirm form to ensure that you are purposefully exiting the GUI
