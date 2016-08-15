@@ -9,10 +9,23 @@ namespace W_Maze_Gui
 {
     static class Extensions
     {
-        public static byte[] GetBytes(this string message)
+        public static byte[] ToBytes(this string message)
         {
             return Encoding.UTF8.GetBytes(message);
         }
+        public static string EnumerableToString<T>(this IEnumerable<T> message)
+        {
+            string result = "";
+            foreach (var elem in message)
+            {
+                result += elem.ToString();
+            }
+            return result;
+        }
 
+        public static string ToAnsii(this byte[] byteMessage)
+        {
+            return Encoding.Default.GetString(byteMessage);
+        }
     }
 }
