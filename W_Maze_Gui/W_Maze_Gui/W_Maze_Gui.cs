@@ -11,7 +11,7 @@ using System.Threading;
 using System.ComponentModel;
 using System.IO.Ports;
 using System.Linq;
-using System.Text;
+
 
 namespace W_Maze_Gui
 {
