@@ -122,9 +122,9 @@ namespace W_Maze_Gui
             var buf = new byte[serialPort.BytesToRead];
             try
             {
-                serialPort.Write("L2".ToBytes(), 0, 2);
+                serialPort.Write("L".ToBytes(), 0, 1);
                 serialPort.Read(buf, 0, serialPort.BytesToRead);
-                var messageToWrite = buf.ToUnicode();
+                var messageToWrite = buf.ToAnsii();
                 notesBox.Text += messageToWrite;
             }
             catch (Exception ex)

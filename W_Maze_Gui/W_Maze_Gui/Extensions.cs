@@ -23,7 +23,7 @@ namespace W_Maze_Gui
             return result;
         }
 
-        public static string ToUnicode(this byte[] byteMessage)
+        public static string ToAnsii(this byte[] byteMessage)
         {
             return Encoding.Default.GetString(byteMessage);
         }
