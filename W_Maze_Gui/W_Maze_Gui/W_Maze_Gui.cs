@@ -11,6 +11,7 @@ using System.Threading;
 using System.ComponentModel;
 using System.IO.Ports;
 using System.Linq;
+using System.Text;
 
 
 namespace W_Maze_Gui
@@ -41,26 +42,29 @@ namespace W_Maze_Gui
         public W_Maze_Gui()
         {
             CsvFiles.openRatDataCsv(); //open RatData.csv so we can read from it and access Rat info
-            //serialPort.BaudRate = 9600;
-            //serialPort.PortName = "COM3";
-            //serialPort.Open();
+            serialPort.BaudRate = 1000000;
+            serialPort.PortName = "COM3";
+            serialPort.ReadTimeout = 10000;
+            serialPort.Encoding = Encoding.ASCII;
+            serialPort.DiscardNull = true;
+            serialPort.WriteBufferSize = 10000;
+            serialPort.Open();
 
             while (!CsvFiles.ratdataReader.EndOfStream) //this reads the RatData.csv file and makes a dictionary for the ages and for the session number
             {
                 var line = CsvFiles.ratdataReader.ReadLine();
                 var vals = line.Split(',');
                 name_to_age.Add(vals[0], vals[1]);
-                name_to_session.Add(vals[0], Int32.Parse(vals[2]));
+                name_to_session.Add(vals[0], int.Parse(vals[2]));
                 ratName.Add(vals[0]);
             }
             CsvFiles.closeRatDataCsv();
-
-            //Felix(The BackroundWorker)
+            //  felix(the backroundworker)
             felix.DoWork += listen_to_arduino;
             felix.RunWorkerCompleted += run_worker_completed;
-
             felix.RunWorkerAsync();
             InitializeComponent();
+
             foreach (var rat in ratName) this.RatSelection.Items.Add(rat);
 
         }
@@ -81,7 +85,7 @@ namespace W_Maze_Gui
             if (!e.Cancelled && e.Error == null && e.Result != null)
             {
                 var messageType = e.Result.ToString().Substring(0, 1);
-                CsvFiles.timestampCsv.Write($"{messageType},{DateTime.Today.ToShortTimeString()}\n");
+                //CsvFiles.timestampCsv.Write($"{messageType},{DateTime.Today.ToShortTimeString()}\n");
                 switch (messageType)
                 {
                     case "c":
@@ -115,6 +119,18 @@ namespace W_Maze_Gui
 
         private void W_Maze_Gui_Load(object sender, EventArgs e)
         {
+            var buf = new byte[serialPort.BytesToRead];
+            try
+            {
+                serialPort.Write("L2".ToBytes(), 0, 2);
+                serialPort.Read(buf, 0, serialPort.BytesToRead);
+                var messageToWrite = buf.ToUnicode();
+                notesBox.Text += messageToWrite;
+            }
+            catch (Exception ex)
+            {
+                notesBox.Text += $"Didn't work this time {ex} \n";
+            }
         }
         private void SelectButtonClick(object sender, EventArgs e)//When you click "Select" you lock in the rat number and info
         {
@@ -136,7 +152,7 @@ namespace W_Maze_Gui
                 CsvFiles.ratdataWriter.Write($"{ratname},{name_to_age[ratname]},{name_to_session[ratname]}\n");
             }
             sessionNumber = (name_to_session[chosenRat]).ToString();
-            CsvFiles.openTimestampCsv(chosenRat,sessionNumber);
+            CsvFiles.openTimestampCsv(chosenRat, sessionNumber);
         }
 
         private void StartButtonClick(object sender, EventArgs e) //Clicking "Start" starts the timer and you can only start after you have selected a rat and locked it in
@@ -148,6 +164,7 @@ namespace W_Maze_Gui
                 updateTime();
             }
             else;
+
         }
 
         private void increment_time(object sender, EventArgs e)//Allows the timer to tick up
@@ -184,13 +201,13 @@ namespace W_Maze_Gui
             $"{this.notesBox.Text}\n");
             CsvFiles.close();
 
-            if (!Directory.Exists($"C:\\Users\\Adele\\Documents\\Barnes Lab\\Wmaze\\RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots"))
+            if (!Directory.Exists($"RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots"))
             {
-                Directory.CreateDirectory($"C:\\Users\\Adele\\Documents\\Barnes Lab\\Wmaze\\RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots");
+                Directory.CreateDirectory($"RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots");
             }
             var bmpScreenCapture = new Bitmap(this.Width, this.Height);
-            DrawToBitmap(bmpScreenCapture,new Rectangle(0, 0, bmpScreenCapture.Width, bmpScreenCapture.Height));
-            bmpScreenCapture.Save($"C:\\Users\\Adele\\Documents\\Barnes Lab\\Wmaze\\RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots\\GUIscreenshot_{ratName[RatSelection.SelectedIndex]}_Session{sessionNumber}.gif",ImageFormat.Gif);
+            DrawToBitmap(bmpScreenCapture, new Rectangle(0, 0, bmpScreenCapture.Width, bmpScreenCapture.Height));
+            bmpScreenCapture.Save($"RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots\\GUIscreenshot_{ratName[RatSelection.SelectedIndex]}_Session{sessionNumber}.gif", ImageFormat.Gif);
 
         }
         private void W_Maze_Gui_FormClosing(object sender, FormClosingEventArgs e) //Opens the exitConfirm form to ensure that you are purposefully exiting the GUI

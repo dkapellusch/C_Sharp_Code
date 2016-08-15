@@ -73,6 +73,7 @@
     <Compile Include="exitConfirm.Designer.cs">
       <DependentUpon>exitConfirm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Extensions.cs" />
     <Compile Include="FormConsole.cs" />
     <Compile Include="splashMonitor.cs" />
     <Compile Include="SplashScreen.cs">
