@@ -85,7 +85,6 @@ namespace W_Maze_Gui
             if (!e.Cancelled && e.Error == null && e.Result != null)
             {
                 var messageType = e.Result.ToString().Substring(0, 1);
-                CsvFiles.timestampCsv.Write($"{messageType},{DateTime.Today.ToShortTimeString()}\n");
                 switch (messageType)
                 {
                     case "c":
@@ -108,6 +107,15 @@ namespace W_Maze_Gui
                         initialCnt++;
                         initialNum.Text = initialCnt.ToString();
                         break;
+                    case "1":
+                        CsvFiles.timestampCsv.Write($"{messageType},1,{DateTime.Today}\n");
+                        break;
+                    case "2":
+                        CsvFiles.timestampCsv.Write($"{messageType},2,{DateTime.Today}\n");
+                        break;
+                    case "3":
+                        CsvFiles.timestampCsv.Write($"{messageType},3,{DateTime.Today}\n");
+                        break;
 
                 }
             }
@@ -125,11 +133,10 @@ namespace W_Maze_Gui
                 serialPort.Write("L".ToBytes(), 0, 1);
                 serialPort.Read(buf, 0, serialPort.BytesToRead);
                 var messageToWrite = buf.ToAnsii();
-                notesBox.Text += messageToWrite;
             }
             catch (Exception ex)
             {
-                notesBox.Text += $"Didn't work this time {ex} \n";
+                //notesBox.Text += $"Didn't work this time {ex} \n";
             }
         }
         private void SelectButtonClick(object sender, EventArgs e)//When you click "Select" you lock in the rat number and info
@@ -198,15 +205,10 @@ namespace W_Maze_Gui
                 this.Show();
                 stopButton_Click(sender, e);
                 saveButton.ForeColor = Color.DarkGray;
-                CsvFiles.sessionCsv.Write(
-                    $"{this.sessionLabel.Text},{this.experimenterBox.Text},{DateTime.Now.ToString()},{this.display_time.Text}," +
-                    $"{this.correctNum.Text},{this.initialNum.Text},{this.outboundNum.Text},{this.inboundNum.Text},{this.repeatNum.Text},{this.totalErrNum.Text},{this.totalNum.Text}," +
-                    $"{this.notesBox.Text}\n");
+                CsvFiles.sessionCsv.Write($"{this.sessionLabel.Text},{this.experimenterBox.Text},{DateTime.Now.ToString()},{this.display_time.Text},{this.correctNum.Text},{this.initialNum.Text},{this.outboundNum.Text},{this.inboundNum.Text},{this.repeatNum.Text},{this.totalErrNum.Text},{this.totalNum.Text},{this.notesBox.Text}\n");
                 CsvFiles.close();
 
-                if (
-                    !Directory.Exists(
-                        $"C:\\Users\\Adele\\Documents\\Barnes Lab\\Wmaze\\RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots"))
+                if (!Directory.Exists ($"C:\\Users\\Adele\\Documents\\Barnes Lab\\Wmaze\\RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots"))
                 {
                     Directory.CreateDirectory(
                         $"C:\\Users\\Adele\\Documents\\Barnes Lab\\Wmaze\\RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots");
