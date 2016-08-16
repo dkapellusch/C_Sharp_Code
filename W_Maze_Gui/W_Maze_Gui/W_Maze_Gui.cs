@@ -36,6 +36,7 @@ namespace W_Maze_Gui
         public int repeatCnt;
         public int initialCnt;
         public string sessionNumber;
+        public bool saved;
 
 
         public W_Maze_Gui()
@@ -119,7 +120,6 @@ namespace W_Maze_Gui
                         CsvFiles.timestampCsv.Write($"{messageType},3,{DateTime.Today}\n");
                         lastFeeder.Text = "3";
                         break;
-
                 }
             }
 
@@ -221,6 +221,7 @@ namespace W_Maze_Gui
                 bmpScreenCapture.Save(
                     $"C:\\Users\\Adele\\Documents\\Barnes Lab\\Wmaze\\RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots\\GUIscreenshot_{ratName[RatSelection.SelectedIndex]}_Session{sessionNumber}.gif",
                     ImageFormat.Gif);
+                saved = true;
             }
         }
         private void W_Maze_Gui_FormClosing(object sender, FormClosingEventArgs e) //Opens the exitConfirm form to ensure that you are purposefully exiting the GUI
@@ -232,6 +233,14 @@ namespace W_Maze_Gui
                 exitConfirm.ShowDialog();
                 e.Cancel = true;
                 _exiting = false;
+                if (!saved)
+                {
+                    if (ratWasChosen)
+                    {
+                        CsvFiles.close();
+                    }
+                   
+                }
             }
         }
 

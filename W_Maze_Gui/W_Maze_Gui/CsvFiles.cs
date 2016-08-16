@@ -43,6 +43,7 @@ namespace W_Maze_Gui
                 }
                 timestampCsv = new StreamWriter($"C:\\Users\\Adele\\Documents\\Barnes Lab\\Wmaze\\RatData\\{number}\\TimeStamps\\TimeStamps_{number}_Session{session}.csv");
         }
+
         public static void close()
         {
             sessionCsv.Close();
