@@ -39,6 +39,7 @@ namespace W_Maze_Gui
         public bool saved;
         public int totes;
         public string ratbeingtested;
+        public string lastMessage;
 
 
         public W_Maze_Gui()
@@ -93,33 +94,89 @@ namespace W_Maze_Gui
                     case "c":
                         correctCnt++;
                         correctNum.Text = correctCnt.ToString();
+                        lastMessage = "c";
                         break;
                     case "i":
                         inboundCnt++;
                         inboundNum.Text = inboundCnt.ToString();
+                        lastMessage = "i";
                         break;
                     case "o":
                         outboundCnt++;
                         outboundNum.Text = outboundCnt.ToString();
+                        lastMessage = "o";
                         break;
                     case "r":
                         repeatCnt++;
                         repeatNum.Text = repeatCnt.ToString();
+                        lastMessage = "r";
                         break;
                     case "b":
                         initialCnt++;
                         initialNum.Text = initialCnt.ToString();
+                        lastMessage = "b";
                         break;
                     case "1":
-                        CsvFiles.timestampCsv.Write($"{messageType},1,{DateTime.Today}\n");
+                        switch (lastMessage)
+                        {
+                            case "c":
+                                CsvFiles.timestampCsv.Write($"1,Correct,{display_time.Text}\n");
+                                break;
+                            case "i":
+                                CsvFiles.timestampCsv.Write($"1,Inbound Error,{display_time.Text}\n");
+                                break;
+                            case "o":
+                                CsvFiles.timestampCsv.Write(($"1,Outbound Error,{display_time.Text}\n"));
+                                break;
+                            case "r":
+                                CsvFiles.timestampCsv.Write(($"1,Repeat Error,{display_time.Text}\n"));
+                                break;
+                            case "b":
+                                CsvFiles.timestampCsv.Write($"1,Initial Error,{display_time.Text}\n");
+                                break;
+                        }
                         lastFeeder.Text = "1";
                         break;
                     case "2":
-                        CsvFiles.timestampCsv.Write($"{messageType},2,{DateTime.Today}\n");
+                        switch (lastMessage)
+                        {
+                            case "c":
+                                CsvFiles.timestampCsv.Write($"2,Correct,{display_time.Text}\n");
+                                break;
+                            case "i":
+                                CsvFiles.timestampCsv.Write($"2,Inbound Error,{display_time.Text}\n");
+                                break;
+                            case "o":
+                                CsvFiles.timestampCsv.Write(($"2,Outbound Error,{display_time.Text}\n"));
+                                break;
+                            case "r":
+                                CsvFiles.timestampCsv.Write(($"2,Repeat Error,{display_time.Text}\n"));
+                                break;
+                            case "b":
+                                CsvFiles.timestampCsv.Write($"2,Initial Error,{display_time.Text}\n");
+                                break;
+                        }
                         lastFeeder.Text = "2";
                         break;
                     case "3":
-                        CsvFiles.timestampCsv.Write($"{messageType},3,{DateTime.Today}\n");
+                        switch (lastMessage)
+                        {
+                            case "c":
+                                CsvFiles.timestampCsv.Write($"3,Correct,{display_time.Text}\n");
+                                break;
+                            case "i":
+                                CsvFiles.timestampCsv.Write($"3,Inbound Error,{display_time.Text}\n");
+                                break;
+                            case "o":
+                                CsvFiles.timestampCsv.Write(($"3,Outbound Error,{display_time.Text}\n"));
+                                break;
+                            case "r":
+                                CsvFiles.timestampCsv.Write(($"3,Repeat Error,{display_time.Text}\n"));
+                                break;
+                            case "b":
+                                CsvFiles.timestampCsv.Write($"3,Initial Error,{display_time.Text}\n");
+                                break;
+                        }
                         lastFeeder.Text = "3";
                         break;
                 }
@@ -172,9 +229,10 @@ namespace W_Maze_Gui
                 }
                 CsvFiles.ratdataWriter.Write($"{ratname},{name_to_age[ratname]},{name_to_session[ratname]}\n");
             }
-            sessionNumber = (name_to_session[chosenRat]).ToString();
+            sessionNumber = (name_to_session[chosenRat]-1).ToString();
             ratbeingtested = ratName[RatSelection.SelectedIndex];
             CsvFiles.openTimestampCsv(chosenRat, sessionNumber);
+            CsvFiles.timestampCsv.Write("Feeder,Type,Timestamp\n");
             CsvFiles.ratdataClose();
         }
 
