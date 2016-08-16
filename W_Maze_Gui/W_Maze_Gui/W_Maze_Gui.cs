@@ -109,12 +109,15 @@ namespace W_Maze_Gui
                         break;
                     case "1":
                         CsvFiles.timestampCsv.Write($"{messageType},1,{DateTime.Today}\n");
+                        lastFeeder.Text = "1";
                         break;
                     case "2":
                         CsvFiles.timestampCsv.Write($"{messageType},2,{DateTime.Today}\n");
+                        lastFeeder.Text = "2";
                         break;
                     case "3":
                         CsvFiles.timestampCsv.Write($"{messageType},3,{DateTime.Today}\n");
+                        lastFeeder.Text = "3";
                         break;
 
                 }
