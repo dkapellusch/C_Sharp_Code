@@ -46,8 +46,12 @@ namespace W_Maze_Gui
 
         public static void close()
         {
-            sessionCsv.Close();
             timestampCsv.Close();
+            sessionCsv.Close();
+        }
+
+        public static void ratdataClose()
+        {
             ratdataWriter.Close();
         }
 

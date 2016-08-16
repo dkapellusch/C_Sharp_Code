@@ -37,6 +37,8 @@ namespace W_Maze_Gui
         public int initialCnt;
         public string sessionNumber;
         public bool saved;
+        public int totes;
+        public string ratbeingtested;
 
 
         public W_Maze_Gui()
@@ -121,6 +123,9 @@ namespace W_Maze_Gui
                         lastFeeder.Text = "3";
                         break;
                 }
+                totes = (inboundCnt + repeatCnt + initialCnt + outboundCnt);
+                totalErrNum.Text = totes.ToString();
+                totalNum.Text = (totes + correctCnt).ToString();
             }
 
             if (!felix.IsBusy)
@@ -128,19 +133,24 @@ namespace W_Maze_Gui
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void W_Maze_Gui_Load(object sender, EventArgs e)
         {
-            var buf = new byte[serialPort.BytesToRead];
-            try
-            {
-                serialPort.Write("L".ToBytes(), 0, 1);
-                serialPort.Read(buf, 0, serialPort.BytesToRead);
-                var messageToWrite = buf.ToAnsii();
-            }
-            catch (Exception ex)
-            {
+            //var buf = new byte[serialPort.BytesToRead];
+            //try
+            //{
+                //serialPort.Write("L".ToBytes(), 0, 1);
+                //serialPort.Read(buf, 0, serialPort.BytesToRead);
+                //var messageToWrite = buf.ToAnsii();
+            //}
+            //catch (Exception ex)
+            //{
                 //notesBox.Text += $"Didn't work this time {ex} \n";
-            }
+            //}
         }
         private void SelectButtonClick(object sender, EventArgs e)//When you click "Select" you lock in the rat number and info
         {
@@ -163,7 +173,9 @@ namespace W_Maze_Gui
                 CsvFiles.ratdataWriter.Write($"{ratname},{name_to_age[ratname]},{name_to_session[ratname]}\n");
             }
             sessionNumber = (name_to_session[chosenRat]).ToString();
+            ratbeingtested = ratName[RatSelection.SelectedIndex];
             CsvFiles.openTimestampCsv(chosenRat, sessionNumber);
+            CsvFiles.ratdataClose();
         }
 
         private void StartButtonClick(object sender, EventArgs e) //Clicking "Start" starts the timer and you can only start after you have selected a rat and locked it in
@@ -237,8 +249,21 @@ namespace W_Maze_Gui
                 {
                     if (ratWasChosen)
                     {
+                        CsvFiles.openWriteToRatData();
+                        
+                        foreach (var ratname in name_to_age.Keys)
+                        {
+                            if (ratname == ratbeingtested)
+                            {
+                                name_to_session[ratname]--;
+                            }
+                            CsvFiles.ratdataWriter.Write($"{ratname},{name_to_age[ratname]},{name_to_session[ratname]}\n");
+                        
+                        }
+                        CsvFiles.ratdataClose();
                         CsvFiles.close();
                     }
+
                    
                 }
             }
