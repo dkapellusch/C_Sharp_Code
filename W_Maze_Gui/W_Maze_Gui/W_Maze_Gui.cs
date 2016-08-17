@@ -200,7 +200,8 @@ namespace W_Maze_Gui
         {
             try
             {
-                serialPort.Write(Encoding.UTF8.GetBytes(new char['L']), 0, 1);
+                var message = new char[1] {'L'};
+                serialPort.Write(message,0,1);
             }
             catch (Exception ex){;}
         }
@@ -218,7 +219,7 @@ namespace W_Maze_Gui
             CsvFiles.openWriteToRatData();
             foreach (var ratname in name_to_age.Keys)
             {
-                if (ratname == chosenRat)
+                if (ratname == chosenRat) 
                 {
                     name_to_session[ratname]++;
                 }
