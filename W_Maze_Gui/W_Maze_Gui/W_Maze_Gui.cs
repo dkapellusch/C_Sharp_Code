@@ -12,7 +12,6 @@ using System.ComponentModel;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
-using System.Data.SqlClient;
 
 namespace W_Maze_Gui
 {
