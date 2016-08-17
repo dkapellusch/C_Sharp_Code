@@ -64,9 +64,9 @@ namespace W_Maze_Gui
             CsvFiles.closeRatDataCsv();
 
             //Felix(The BackroundWorker)
-            //felix.DoWork += listen_to_arduino;
-            //felix.RunWorkerCompleted += run_worker_completed;
-            //felix.RunWorkerAsync();
+            felix.DoWork += listen_to_arduino;
+            felix.RunWorkerCompleted += run_worker_completed;
+            felix.RunWorkerAsync();
             InitializeComponent();
 
             foreach (var rat in ratName) this.RatSelection.Items.Add(rat);
@@ -191,13 +191,17 @@ namespace W_Maze_Gui
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void W_Maze_Gui_Load(object sender, EventArgs e)
         {
             try
             {
-                var message = new char[1] { 'L' };
-                notesBox.AppendText(message.EnumerableToString());
-                serialPort.Write(message, 0, 1);
+                var message = new char[1] {'L'};
+                serialPort.Write(message,0,1);
             }
             catch (Exception ex){;}
         }
@@ -215,7 +219,7 @@ namespace W_Maze_Gui
             CsvFiles.openWriteToRatData();
             foreach (var ratname in name_to_age.Keys)
             {
-                if (ratname == chosenRat)
+                if (ratname == chosenRat) 
                 {
                     name_to_session[ratname]++;
                 }
@@ -236,7 +240,6 @@ namespace W_Maze_Gui
                 Recording_Time.Enabled = true;
                 updateTime();
             }
-
         }
 
         private void increment_time(object sender, EventArgs e)//Allows the timer to tick up
