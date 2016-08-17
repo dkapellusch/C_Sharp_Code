@@ -13,13 +13,11 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 
-
 namespace W_Maze_Gui
 {
 
     public partial class W_Maze_Gui : Form
     {
-
         private int elapsed_time;
         private bool _exiting;
         private bool ratWasChosen = false;
@@ -37,15 +35,19 @@ namespace W_Maze_Gui
         public int repeatCnt;
         public int initialCnt;
         public string sessionNumber;
+        public bool saved;
+        public int totes;
+        public string ratbeingtested;
+        public string lastMessage;
 
 
         public W_Maze_Gui()
         {
             CsvFiles.openRatDataCsv(); //open RatData.csv so we can read from it and access Rat info
-            serialPort.BaudRate = 1000000;
+            serialPort.BaudRate = 9600;
             serialPort.PortName = "COM3";
             serialPort.ReadTimeout = 10000;
-            serialPort.Encoding = Encoding.ASCII;
+            serialPort.Encoding = Encoding.UTF8;
             serialPort.DiscardNull = true;
             serialPort.WriteBufferSize = 10000;
             serialPort.Open();
@@ -55,11 +57,12 @@ namespace W_Maze_Gui
                 var line = CsvFiles.ratdataReader.ReadLine();
                 var vals = line.Split(',');
                 name_to_age.Add(vals[0], vals[1]);
-                name_to_session.Add(vals[0], int.Parse(vals[2]));
+                name_to_session.Add(vals[0], Int32.Parse(vals[2]));
                 ratName.Add(vals[0]);
             }
             CsvFiles.closeRatDataCsv();
-            //  felix(the backroundworker)
+
+            //Felix(The BackroundWorker)
             felix.DoWork += listen_to_arduino;
             felix.RunWorkerCompleted += run_worker_completed;
             felix.RunWorkerAsync();
@@ -85,31 +88,100 @@ namespace W_Maze_Gui
             if (!e.Cancelled && e.Error == null && e.Result != null)
             {
                 var messageType = e.Result.ToString().Substring(0, 1);
-                //CsvFiles.timestampCsv.Write($"{messageType},{DateTime.Today.ToShortTimeString()}\n");
                 switch (messageType)
                 {
                     case "c":
                         correctCnt++;
                         correctNum.Text = correctCnt.ToString();
+                        lastMessage = "c";
                         break;
                     case "i":
                         inboundCnt++;
                         inboundNum.Text = inboundCnt.ToString();
+                        lastMessage = "i";
                         break;
                     case "o":
                         outboundCnt++;
                         outboundNum.Text = outboundCnt.ToString();
+                        lastMessage = "o";
                         break;
                     case "r":
                         repeatCnt++;
                         repeatNum.Text = repeatCnt.ToString();
+                        lastMessage = "r";
                         break;
                     case "b":
                         initialCnt++;
                         initialNum.Text = initialCnt.ToString();
+                        lastMessage = "b";
                         break;
-
+                    case "1":
+                        switch (lastMessage)
+                        {
+                            case "c":
+                                CsvFiles.timestampCsv.Write($"1,Correct,{display_time.Text}\n");
+                                break;
+                            case "i":
+                                CsvFiles.timestampCsv.Write($"1,Inbound Error,{display_time.Text}\n");
+                                break;
+                            case "o":
+                                CsvFiles.timestampCsv.Write(($"1,Outbound Error,{display_time.Text}\n"));
+                                break;
+                            case "r":
+                                CsvFiles.timestampCsv.Write(($"1,Repeat Error,{display_time.Text}\n"));
+                                break;
+                            case "b":
+                                CsvFiles.timestampCsv.Write($"1,Initial Error,{display_time.Text}\n");
+                                break;
+                        }
+                        lastFeeder.Text = "1";
+                        break;
+                    case "2":
+                        switch (lastMessage)
+                        {
+                            case "c":
+                                CsvFiles.timestampCsv.Write($"2,Correct,{display_time.Text}\n");
+                                break;
+                            case "i":
+                                CsvFiles.timestampCsv.Write($"2,Inbound Error,{display_time.Text}\n");
+                                break;
+                            case "o":
+                                CsvFiles.timestampCsv.Write(($"2,Outbound Error,{display_time.Text}\n"));
+                                break;
+                            case "r":
+                                CsvFiles.timestampCsv.Write(($"2,Repeat Error,{display_time.Text}\n"));
+                                break;
+                            case "b":
+                                CsvFiles.timestampCsv.Write($"2,Initial Error,{display_time.Text}\n");
+                                break;
+                        }
+                        lastFeeder.Text = "2";
+                        break;
+                    case "3":
+                        switch (lastMessage)
+                        {
+                            case "c":
+                                CsvFiles.timestampCsv.Write($"3,Correct,{display_time.Text}\n");
+                                break;
+                            case "i":
+                                CsvFiles.timestampCsv.Write($"3,Inbound Error,{display_time.Text}\n");
+                                break;
+                            case "o":
+                                CsvFiles.timestampCsv.Write(($"3,Outbound Error,{display_time.Text}\n"));
+                                break;
+                            case "r":
+                                CsvFiles.timestampCsv.Write(($"3,Repeat Error,{display_time.Text}\n"));
+                                break;
+                            case "b":
+                                CsvFiles.timestampCsv.Write($"3,Initial Error,{display_time.Text}\n");
+                                break;
+                        }
+                        lastFeeder.Text = "3";
+                        break;
                 }
+                totes = (inboundCnt + repeatCnt + initialCnt + outboundCnt);
+                totalErrNum.Text = totes.ToString();
+                totalNum.Text = (totes + correctCnt).ToString();
             }
 
             if (!felix.IsBusy)
@@ -117,25 +189,24 @@ namespace W_Maze_Gui
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void W_Maze_Gui_Load(object sender, EventArgs e)
         {
-            var buf = new byte[serialPort.BytesToRead];
             try
             {
-                serialPort.Write("L".ToBytes(), 0, 1);
-                serialPort.Read(buf, 0, serialPort.BytesToRead);
-                var messageToWrite = buf.ToAnsii();
-                notesBox.Text += messageToWrite;
+                serialPort.Write(Encoding.UTF8.GetBytes(new char['L']), 0, 1);
             }
-            catch (Exception ex)
-            {
-                notesBox.Text += $"Didn't work this time {ex} \n";
-            }
+            catch (Exception ex){;}
         }
         private void SelectButtonClick(object sender, EventArgs e)//When you click "Select" you lock in the rat number and info
         {
             selectButton.Hide();
             RatSelection.Hide();
+            saveButton.Enabled = true;
             ratSelectionLabel.Text = $"{ratName[RatSelection.SelectedIndex]}";
             var chosenRat = ratName[RatSelection.SelectedIndex];
             ageLabel.Text = name_to_age[chosenRat];
@@ -151,8 +222,11 @@ namespace W_Maze_Gui
                 }
                 CsvFiles.ratdataWriter.Write($"{ratname},{name_to_age[ratname]},{name_to_session[ratname]}\n");
             }
-            sessionNumber = (name_to_session[chosenRat]).ToString();
+            sessionNumber = (name_to_session[chosenRat]-1).ToString();
+            ratbeingtested = ratName[RatSelection.SelectedIndex];
             CsvFiles.openTimestampCsv(chosenRat, sessionNumber);
+            CsvFiles.timestampCsv.Write("Feeder,Type,Timestamp\n");
+            CsvFiles.ratdataClose();
         }
 
         private void StartButtonClick(object sender, EventArgs e) //Clicking "Start" starts the timer and you can only start after you have selected a rat and locked it in
@@ -163,8 +237,6 @@ namespace W_Maze_Gui
                 Recording_Time.Enabled = true;
                 updateTime();
             }
-            else;
-
         }
 
         private void increment_time(object sender, EventArgs e)//Allows the timer to tick up
@@ -194,21 +266,26 @@ namespace W_Maze_Gui
         }
         private void SaveButtonClick(object sender, EventArgs e) //Hitting the save button saves the session info to SessionInfo_{rat#} as well as a screen shot of the GUI
         {
-            this.Show();
-            saveButton.ForeColor = Color.DarkGray;
-            CsvFiles.sessionCsv.Write($"{this.sessionLabel.Text},{this.experimenterBox.Text},{DateTime.Now.ToString()},{this.display_time.Text}," +
-            $"{this.correctNum.Text},{this.initialNum.Text},{this.outboundNum.Text},{this.inboundNum.Text},{this.repeatNum.Text},{this.totalErrNum.Text},{this.totalNum.Text}," +
-            $"{this.notesBox.Text}\n");
-            CsvFiles.close();
-
-            if (!Directory.Exists($"RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots"))
+            if (ratWasChosen)
             {
-                Directory.CreateDirectory($"RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots");
-            }
-            var bmpScreenCapture = new Bitmap(this.Width, this.Height);
-            DrawToBitmap(bmpScreenCapture, new Rectangle(0, 0, bmpScreenCapture.Width, bmpScreenCapture.Height));
-            bmpScreenCapture.Save($"RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots\\GUIscreenshot_{ratName[RatSelection.SelectedIndex]}_Session{sessionNumber}.gif", ImageFormat.Gif);
+                this.Show();
+                stopButton_Click(sender, e);
+                saveButton.ForeColor = Color.DarkGray;
+                CsvFiles.sessionCsv.Write($"{this.sessionLabel.Text},{this.experimenterBox.Text},{DateTime.Now.ToString()},{this.display_time.Text},{this.correctNum.Text},{this.initialNum.Text},{this.outboundNum.Text},{this.inboundNum.Text},{this.repeatNum.Text},{this.totalErrNum.Text},{this.totalNum.Text},{this.notesBox.Text}\n");
+                CsvFiles.close();
 
+                if (!Directory.Exists ($"C:\\Users\\Adele\\Documents\\Barnes Lab\\Wmaze\\RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots"))
+                {
+                    Directory.CreateDirectory(
+                        $"C:\\Users\\Adele\\Documents\\Barnes Lab\\Wmaze\\RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots");
+                }
+                var bmpScreenCapture = new Bitmap(this.Width, this.Height);
+                DrawToBitmap(bmpScreenCapture, new Rectangle(0, 0, bmpScreenCapture.Width, bmpScreenCapture.Height));
+                bmpScreenCapture.Save(
+                    $"C:\\Users\\Adele\\Documents\\Barnes Lab\\Wmaze\\RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots\\GUIscreenshot_{ratName[RatSelection.SelectedIndex]}_Session{sessionNumber}.gif",
+                    ImageFormat.Gif);
+                saved = true;
+            }
         }
         private void W_Maze_Gui_FormClosing(object sender, FormClosingEventArgs e) //Opens the exitConfirm form to ensure that you are purposefully exiting the GUI
         {
@@ -219,6 +296,27 @@ namespace W_Maze_Gui
                 exitConfirm.ShowDialog();
                 e.Cancel = true;
                 _exiting = false;
+                if (!saved)
+                {
+                    if (ratWasChosen)
+                    {
+                        CsvFiles.openWriteToRatData();
+                        
+                        foreach (var ratname in name_to_age.Keys)
+                        {
+                            if (ratname == ratbeingtested)
+                            {
+                                name_to_session[ratname]--;
+                            }
+                            CsvFiles.ratdataWriter.Write($"{ratname},{name_to_age[ratname]},{name_to_session[ratname]}\n");
+                        
+                        }
+                        CsvFiles.ratdataClose();
+                        CsvFiles.close();
+                    }
+
+                   
+                }
             }
         }
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,7 +11,7 @@ namespace W_Maze_Gui
     {
         public static byte[] ToBytes(this string message)
         {
-            return Encoding.ASCII.GetBytes(message);
+            return Encoding.UTF8.GetBytes(message);
         }
         public static string EnumerableToString<T>(this IEnumerable<T> message)
         {

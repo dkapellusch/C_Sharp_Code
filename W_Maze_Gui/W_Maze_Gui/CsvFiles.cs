@@ -43,10 +43,15 @@ namespace W_Maze_Gui
                 }
                 timestampCsv = new StreamWriter($"RatData\\{number}\\TimeStamps\\TimeStamps_{number}_Session{session}.csv");
         }
+
         public static void close()
         {
-            sessionCsv.Close();
             timestampCsv.Close();
+            sessionCsv.Close();
+        }
+
+        public static void ratdataClose()
+        {
             ratdataWriter.Close();
         }
 
