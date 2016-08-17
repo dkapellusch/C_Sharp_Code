@@ -45,13 +45,13 @@ namespace W_Maze_Gui
         public W_Maze_Gui()
         {
             CsvFiles.openRatDataCsv(); //open RatData.csv so we can read from it and access Rat info
-            serialPort.BaudRate = 9600;
-            serialPort.PortName = "COM3";
-            serialPort.ReadTimeout = 10000;
-            serialPort.Encoding = Encoding.UTF8;
-            serialPort.DiscardNull = true;
-            serialPort.WriteBufferSize = 10000;
-            serialPort.Open();
+            //serialPort.BaudRate = 9600;
+            //serialPort.PortName = "COM3";
+            //serialPort.ReadTimeout = 10000;
+            //serialPort.Encoding = Encoding.UTF8;
+            //serialPort.DiscardNull = true;
+            //serialPort.WriteBufferSize = 10000;
+            //serialPort.Open();
 
             while (!CsvFiles.ratdataReader.EndOfStream) //this reads the RatData.csv file and makes a dictionary for the ages and for the session number
             {
@@ -190,12 +190,6 @@ namespace W_Maze_Gui
                 felix.RunWorkerAsync();
 
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void W_Maze_Gui_Load(object sender, EventArgs e)
         {
             try
@@ -239,6 +233,13 @@ namespace W_Maze_Gui
                 startButton.ForeColor = Color.AliceBlue;
                 Recording_Time.Enabled = true;
                 updateTime();
+            }
+            else
+            {
+                var ratWindow = new SelectRatWindow();
+                ratWindow.StartPosition = FormStartPosition.CenterParent;
+                ratWindow.ShowDialog();
+
             }
         }
 
