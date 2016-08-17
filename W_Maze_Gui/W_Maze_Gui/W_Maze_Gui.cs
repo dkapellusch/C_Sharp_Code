@@ -72,6 +72,7 @@ namespace W_Maze_Gui
         }
         private void W_Maze_Gui_Load(object sender, EventArgs e)
         {
+            selectButton.Enabled = false;
             try
             {
                 var message = new char[1] { 'L' };
@@ -274,6 +275,7 @@ namespace W_Maze_Gui
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            selectButton.Enabled = true;
         }
         private void SaveButtonClick(object sender, EventArgs e) //Hitting the save button saves the session info to SessionInfo_{rat#} as well as a screen shot of the GUI
         {

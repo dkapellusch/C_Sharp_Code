@@ -133,6 +133,7 @@
             this.RatSelection.Size = new System.Drawing.Size(101, 24);
             this.RatSelection.Sorted = true;
             this.RatSelection.TabIndex = 3;
+            this.RatSelection.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             this.RatSelection.Click += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // Recording_Time
