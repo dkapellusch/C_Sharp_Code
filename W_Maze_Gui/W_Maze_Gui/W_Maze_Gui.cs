@@ -64,10 +64,7 @@ namespace W_Maze_Gui
             }
             CsvFiles.closeRatDataCsv();
 
-            //Felix(The BackroundWorker)
-            felix.DoWork += listen_to_arduino;
-            felix.RunWorkerCompleted += run_worker_completed;
-            felix.RunWorkerAsync();
+
             InitializeComponent();
 
             foreach (var rat in ratName) this.RatSelection.Items.Add(rat);
@@ -206,6 +203,11 @@ namespace W_Maze_Gui
 
         private void SelectButtonClick(object sender, EventArgs e)//When you click "Select" you lock in the rat number and info
         {
+            //Felix(The BackroundWorker)
+            felix.DoWork += listen_to_arduino;
+            felix.RunWorkerCompleted += run_worker_completed;
+            felix.RunWorkerAsync();
+
             selectButton.Hide();
             RatSelection.Hide();
             saveButton.Enabled = true;
