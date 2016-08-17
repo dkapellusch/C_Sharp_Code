@@ -18,7 +18,6 @@ namespace W_Maze_Gui
 
     public partial class W_Maze_Gui : Form
     {
-
         private int elapsed_time;
         private bool _exiting;
         private bool ratWasChosen = false;
@@ -197,17 +196,11 @@ namespace W_Maze_Gui
         /// <param name="e"></param>
         private void W_Maze_Gui_Load(object sender, EventArgs e)
         {
-            //var buf = new byte[serialPort.BytesToRead];
-            //try
-            //{
-                //serialPort.Write("L".ToBytes(), 0, 1);
-                //serialPort.Read(buf, 0, serialPort.BytesToRead);
-                //var messageToWrite = buf.ToAnsii();
-            //}
-            //catch (Exception ex)
-            //{
-                //notesBox.Text += $"Didn't work this time {ex} \n";
-            //}
+            try
+            {
+                serialPort.Write(Encoding.UTF8.GetBytes(new char['L']), 0, 1);
+            }
+            catch (Exception ex){;}
         }
         private void SelectButtonClick(object sender, EventArgs e)//When you click "Select" you lock in the rat number and info
         {
