@@ -18,7 +18,7 @@ namespace W_Maze_Gui
             string result = "";
             foreach (var elem in message)
             {
-                result += elem.ToString();
+                result += elem;
             }
             return result;
         }
