@@ -18,7 +18,7 @@ namespace W_Maze_Gui
 
     public partial class W_Maze_Gui : Form
     {
-        private int elapsed_time;
+        private int _elapsed_time;
         private bool _exiting;
         private bool ratWasChosen = false;
         private readonly Form exitConfirm = new ExitConfirm();
@@ -244,17 +244,17 @@ namespace W_Maze_Gui
 
         private void increment_time(object sender, EventArgs e)//Allows the timer to tick up
         {
-            elapsed_time += 1;
+            _elapsed_time += 1;
             updateTime();
 
         }
 
         private void updateTime()//Displays the current length of the session
         {
-            var mins_ones = (elapsed_time / 60) % 10;
-            var mins_tens = (elapsed_time / 60) / 10;
-            var secs_ones = (elapsed_time % 60) % 10;
-            var secs_tens = (elapsed_time % 60) / 10;
+            var mins_ones = (_elapsed_time / 60) % 10;
+            var mins_tens = (_elapsed_time / 60) / 10;
+            var secs_ones = (_elapsed_time % 60) % 10;
+            var secs_tens = (_elapsed_time % 60) / 10;
             display_time.Text = $"{mins_tens}{mins_ones}:{secs_tens}{secs_ones}";
         }
 
