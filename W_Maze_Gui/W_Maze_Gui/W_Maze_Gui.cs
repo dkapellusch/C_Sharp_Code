@@ -18,6 +18,7 @@ namespace W_Maze_Gui
 
     public partial class W_Maze_Gui : Form
     {
+        public bool splash = true;
         private int _elapsed_time;
         private bool _exiting;
         private bool ratWasChosen = false;
@@ -44,13 +45,14 @@ namespace W_Maze_Gui
         public W_Maze_Gui()
         {
             CsvFiles.openRatDataCsv(); //open RatData.csv so we can read from it and access Rat info
-            //serialPort.BaudRate = 9600;
-            //serialPort.PortName = "COM3";
-            //serialPort.ReadTimeout = 10000;
-            //serialPort.Encoding = Encoding.UTF8;
-            //serialPort.DiscardNull = true;
-            //serialPort.WriteBufferSize = 10000;
-            //serialPort.Open();
+            serialPort.BaudRate = 9600;
+            serialPort.PortName = "COM3";
+            serialPort.ReadTimeout = 10000;
+            serialPort.Encoding = Encoding.UTF8;
+            serialPort.DiscardNull = true;
+            serialPort.WriteBufferSize = 10000;
+            serialPort.Open();
+
 
             while (!CsvFiles.ratdataReader.EndOfStream) //this reads the RatData.csv file and makes a dictionary for the ages and for the session number
             {
@@ -69,8 +71,18 @@ namespace W_Maze_Gui
             InitializeComponent();
 
             foreach (var rat in ratName) this.RatSelection.Items.Add(rat);
-
+            
         }
+        private void W_Maze_Gui_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                var message = new char[1] { 'L' };
+                serialPort.Write(message, 0, 1);
+            }
+            catch (Exception ex) {; }
+        }
+
         public void listen_to_arduino(object sender, DoWorkEventArgs e) //The "listener" that is the mediator between the worker (Felix) and the updater
         {
 
@@ -88,9 +100,11 @@ namespace W_Maze_Gui
             if (!e.Cancelled && e.Error == null && e.Result != null)
             {
                 var messageType = e.Result.ToString().Substring(0, 1);
-                //CsvFiles.timestampCsv.Write($"{messageType},{DateTime.Today.ToShortTimeString()}\n");
                 switch (messageType)
                 {
+                    case "w":
+                        startButton.ForeColor = Color.White;
+                        break;
                     case "c":
                         correctCnt++;
                         correctNum.Text = correctCnt.ToString();
@@ -189,15 +203,7 @@ namespace W_Maze_Gui
                 felix.RunWorkerAsync();
 
         }
-        private void W_Maze_Gui_Load(object sender, EventArgs e)
-        {
-            try
-            {
-                var message = new char[1] {'L'};
-                serialPort.Write(message,0,1);
-            }
-            catch (Exception ex){;}
-        }
+
         private void SelectButtonClick(object sender, EventArgs e)//When you click "Select" you lock in the rat number and info
         {
             selectButton.Hide();
