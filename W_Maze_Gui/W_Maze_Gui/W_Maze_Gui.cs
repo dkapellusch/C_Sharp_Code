@@ -13,6 +13,7 @@ using System.IO.Ports;
 using System.Linq;
 using System.Text;
 
+
 namespace W_Maze_Gui
 {
 
@@ -57,7 +58,7 @@ namespace W_Maze_Gui
                 var line = CsvFiles.ratdataReader.ReadLine();
                 var vals = line.Split(',');
                 name_to_age.Add(vals[0], vals[1]);
-                name_to_session.Add(vals[0], Int32.Parse(vals[2]));
+                name_to_session.Add(vals[0], int.Parse(vals[2]));
                 ratName.Add(vals[0]);
             }
             CsvFiles.closeRatDataCsv();
@@ -88,6 +89,7 @@ namespace W_Maze_Gui
             if (!e.Cancelled && e.Error == null && e.Result != null)
             {
                 var messageType = e.Result.ToString().Substring(0, 1);
+                //CsvFiles.timestampCsv.Write($"{messageType},{DateTime.Today.ToShortTimeString()}\n");
                 switch (messageType)
                 {
                     case "c":
