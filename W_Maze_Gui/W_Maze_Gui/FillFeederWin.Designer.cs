@@ -30,7 +30,6 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FillFeederWin));
             this.label1 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.fill1 = new System.Windows.Forms.Button();
             this.fill2 = new System.Windows.Forms.Button();
             this.fill3 = new System.Windows.Forms.Button();
@@ -38,6 +37,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,16 +51,6 @@
             this.label1.Size = new System.Drawing.Size(176, 32);
             this.label1.TabIndex = 0;
             this.label1.Text = "Fill Feeders";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(1, 41);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(676, 466);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 4;
-            this.pictureBox1.TabStop = false;
             // 
             // fill1
             // 
@@ -76,9 +66,9 @@
             // fill2
             // 
             this.fill2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fill2.Location = new System.Drawing.Point(264, 111);
+            this.fill2.Location = new System.Drawing.Point(281, 111);
             this.fill2.Name = "fill2";
-            this.fill2.Size = new System.Drawing.Size(63, 46);
+            this.fill2.Size = new System.Drawing.Size(66, 46);
             this.fill2.TabIndex = 6;
             this.fill2.Text = "Fill F2";
             this.fill2.UseVisualStyleBackColor = true;
@@ -87,9 +77,9 @@
             // fill3
             // 
             this.fill3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fill3.Location = new System.Drawing.Point(375, 110);
+            this.fill3.Location = new System.Drawing.Point(409, 110);
             this.fill3.Name = "fill3";
-            this.fill3.Size = new System.Drawing.Size(55, 42);
+            this.fill3.Size = new System.Drawing.Size(66, 48);
             this.fill3.TabIndex = 7;
             this.fill3.Text = "Fill F3";
             this.fill3.UseVisualStyleBackColor = true;
@@ -113,9 +103,9 @@
             this.button2.BackColor = System.Drawing.Color.Red;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(264, 111);
+            this.button2.Location = new System.Drawing.Point(281, 111);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(63, 47);
+            this.button2.Size = new System.Drawing.Size(66, 47);
             this.button2.TabIndex = 9;
             this.button2.Text = "STOP";
             this.button2.UseVisualStyleBackColor = false;
@@ -126,9 +116,9 @@
             this.button3.BackColor = System.Drawing.Color.Red;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(375, 111);
+            this.button3.Location = new System.Drawing.Point(409, 110);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(55, 41);
+            this.button3.Size = new System.Drawing.Size(66, 48);
             this.button3.TabIndex = 10;
             this.button3.Text = "STOP";
             this.button3.UseVisualStyleBackColor = false;
@@ -146,6 +136,16 @@
             this.button4.Text = "Done Filling";
             this.button4.UseVisualStyleBackColor = false;
             this.button4.Click += new System.EventHandler(this.closeFill);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(-23, 41);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(676, 466);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 4;
+            this.pictureBox1.TabStop = false;
             // 
             // FillFeederWin
             // 
@@ -175,7 +175,6 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button fill1;
         private System.Windows.Forms.Button fill2;
         private System.Windows.Forms.Button fill3;
@@ -183,5 +182,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
