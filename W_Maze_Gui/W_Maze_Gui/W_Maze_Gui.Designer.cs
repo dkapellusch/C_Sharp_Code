@@ -72,10 +72,9 @@
             this.panel8 = new System.Windows.Forms.Panel();
             this.panel9 = new System.Windows.Forms.Panel();
             this.panel10 = new System.Windows.Forms.Panel();
-            this.panel11 = new System.Windows.Forms.Panel();
-            this.label9 = new System.Windows.Forms.Label();
-            this.lastFeeder = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
+            this.fillButton = new System.Windows.Forms.Button();
+            this.cleanButton = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -85,7 +84,6 @@
             this.panel8.SuspendLayout();
             this.panel9.SuspendLayout();
             this.panel10.SuspendLayout();
-            this.panel11.SuspendLayout();
             this.SuspendLayout();
             // 
             // startButton
@@ -125,6 +123,7 @@
             this.RatSelection.DisplayMember = "RatSelection";
             this.RatSelection.DropDownHeight = 100;
             this.RatSelection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.RatSelection.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.RatSelection.ForeColor = System.Drawing.SystemColors.MenuHighlight;
             this.RatSelection.FormattingEnabled = true;
             this.RatSelection.IntegralHeight = false;
@@ -133,6 +132,7 @@
             this.RatSelection.Size = new System.Drawing.Size(101, 24);
             this.RatSelection.Sorted = true;
             this.RatSelection.TabIndex = 3;
+            this.RatSelection.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             this.RatSelection.Click += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // Recording_Time
@@ -559,37 +559,6 @@
             this.panel10.Size = new System.Drawing.Size(71, 135);
             this.panel10.TabIndex = 33;
             // 
-            // panel11
-            // 
-            this.panel11.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.panel11.Controls.Add(this.label9);
-            this.panel11.Controls.Add(this.lastFeeder);
-            this.panel11.Location = new System.Drawing.Point(12, 352);
-            this.panel11.Name = "panel11";
-            this.panel11.Size = new System.Drawing.Size(187, 49);
-            this.panel11.TabIndex = 34;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(3, 11);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(127, 24);
-            this.label9.TabIndex = 35;
-            this.label9.Text = "Last Feeder:";
-            // 
-            // lastFeeder
-            // 
-            this.lastFeeder.AutoSize = true;
-            this.lastFeeder.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lastFeeder.ForeColor = System.Drawing.Color.Cyan;
-            this.lastFeeder.Location = new System.Drawing.Point(141, 11);
-            this.lastFeeder.Name = "lastFeeder";
-            this.lastFeeder.Size = new System.Drawing.Size(0, 24);
-            this.lastFeeder.TabIndex = 35;
-            // 
             // label11
             // 
             this.label11.AutoSize = true;
@@ -598,6 +567,33 @@
             this.label11.Size = new System.Drawing.Size(0, 17);
             this.label11.TabIndex = 36;
             // 
+            // fillButton
+            // 
+            this.fillButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(42)))), ((int)(((byte)(42)))), ((int)(((byte)(42)))));
+            this.fillButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.fillButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.fillButton.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.fillButton.Location = new System.Drawing.Point(63, 357);
+            this.fillButton.Name = "fillButton";
+            this.fillButton.Size = new System.Drawing.Size(86, 36);
+            this.fillButton.TabIndex = 37;
+            this.fillButton.Text = "FILL";
+            this.fillButton.UseVisualStyleBackColor = false;
+            this.fillButton.Click += new System.EventHandler(this.fillFeeders);
+            // 
+            // cleanButton
+            // 
+            this.cleanButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cleanButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cleanButton.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.cleanButton.Location = new System.Drawing.Point(63, 399);
+            this.cleanButton.Name = "cleanButton";
+            this.cleanButton.Size = new System.Drawing.Size(86, 36);
+            this.cleanButton.TabIndex = 38;
+            this.cleanButton.Text = "CLEAN";
+            this.cleanButton.UseVisualStyleBackColor = true;
+            this.cleanButton.Click += new System.EventHandler(this.cleanFeeders);
+            // 
             // W_Maze_Gui
             // 
             this.AllowDrop = true;
@@ -605,8 +601,9 @@
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.ClientSize = new System.Drawing.Size(758, 528);
+            this.Controls.Add(this.cleanButton);
+            this.Controls.Add(this.fillButton);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.panel11);
             this.Controls.Add(this.panel10);
             this.Controls.Add(this.panel9);
             this.Controls.Add(this.panel8);
@@ -655,8 +652,6 @@
             this.panel9.PerformLayout();
             this.panel10.ResumeLayout(false);
             this.panel10.PerformLayout();
-            this.panel11.ResumeLayout(false);
-            this.panel11.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -707,10 +702,9 @@
         private System.Windows.Forms.Panel panel8;
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.Panel panel10;
-        private System.Windows.Forms.Panel panel11;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label lastFeeder;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button fillButton;
+        private System.Windows.Forms.Button cleanButton;
     }
 }
 

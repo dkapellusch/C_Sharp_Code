@@ -18,6 +18,7 @@ namespace W_Maze_Gui
 
     public partial class W_Maze_Gui : Form
     {
+        public bool splash = true;
         private int _elapsed_time;
         private bool _exiting;
         private bool ratWasChosen = false;
@@ -27,7 +28,7 @@ namespace W_Maze_Gui
         private List<string> ratSession = new List<string>();
         private Dictionary<string, string> name_to_age = new Dictionary<string, string>();
         private Dictionary<string, int> name_to_session = new Dictionary<string, int>();
-        private SerialPort serialPort = new SerialPort();
+        private static SerialPort serialPort = new SerialPort(); //recently made static; if there are issues with making an instance of W_Maze_GUI, change back
         public BackgroundWorker felix = new BackgroundWorker();
         public int correctCnt;
         public int inboundCnt;
@@ -52,6 +53,7 @@ namespace W_Maze_Gui
             //serialPort.WriteBufferSize = 10000;
             //serialPort.Open();
 
+
             while (!CsvFiles.ratdataReader.EndOfStream) //this reads the RatData.csv file and makes a dictionary for the ages and for the session number
             {
                 var line = CsvFiles.ratdataReader.ReadLine();
@@ -62,15 +64,24 @@ namespace W_Maze_Gui
             }
             CsvFiles.closeRatDataCsv();
 
-            //Felix(The BackroundWorker)
-            felix.DoWork += listen_to_arduino;
-            felix.RunWorkerCompleted += run_worker_completed;
-            felix.RunWorkerAsync();
+
             InitializeComponent();
 
             foreach (var rat in ratName) this.RatSelection.Items.Add(rat);
-
+            
         }
+        private void W_Maze_Gui_Load(object sender, EventArgs e)
+        {
+            cleanButton.Hide();
+            selectButton.Enabled = false;
+            try
+            {
+                var message = new char[1] { 'L' };
+                serialPort.Write(message, 0, 1);
+            }
+            catch (Exception ex) {; }
+        }
+
         public void listen_to_arduino(object sender, DoWorkEventArgs e) //The "listener" that is the mediator between the worker (Felix) and the updater
         {
 
@@ -88,9 +99,11 @@ namespace W_Maze_Gui
             if (!e.Cancelled && e.Error == null && e.Result != null)
             {
                 var messageType = e.Result.ToString().Substring(0, 1);
-                //CsvFiles.timestampCsv.Write($"{messageType},{DateTime.Today.ToShortTimeString()}\n");
                 switch (messageType)
                 {
+                    case "w":
+                        startButton.ForeColor = Color.White;
+                        break;
                     case "c":
                         correctCnt++;
                         correctNum.Text = correctCnt.ToString();
@@ -135,7 +148,7 @@ namespace W_Maze_Gui
                                 CsvFiles.timestampCsv.Write($"1,Initial Error,{display_time.Text}\n");
                                 break;
                         }
-                        lastFeeder.Text = "1";
+                        
                         break;
                     case "2":
                         switch (lastMessage)
@@ -156,7 +169,7 @@ namespace W_Maze_Gui
                                 CsvFiles.timestampCsv.Write($"2,Initial Error,{display_time.Text}\n");
                                 break;
                         }
-                        lastFeeder.Text = "2";
+                        
                         break;
                     case "3":
                         switch (lastMessage)
@@ -177,7 +190,7 @@ namespace W_Maze_Gui
                                 CsvFiles.timestampCsv.Write($"3,Initial Error,{display_time.Text}\n");
                                 break;
                         }
-                        lastFeeder.Text = "3";
+                        
                         break;
                 }
                 totes = (inboundCnt + repeatCnt + initialCnt + outboundCnt);
@@ -189,44 +202,46 @@ namespace W_Maze_Gui
                 felix.RunWorkerAsync();
 
         }
-        private void W_Maze_Gui_Load(object sender, EventArgs e)
+
+        private void SelectButtonClick(object sender, EventArgs e)
+            //When you click "Select" you lock in the rat number and info
         {
-            try
+            if (RatSelection.SelectedIndex >= 0)
             {
-                var message = new char[1] {'L'};
-                serialPort.Write(message,0,1);
-            }
-            catch (Exception ex){;}
-        }
-        private void SelectButtonClick(object sender, EventArgs e)//When you click "Select" you lock in the rat number and info
-        {
-            selectButton.Hide();
-            RatSelection.Hide();
-            saveButton.Enabled = true;
-            ratSelectionLabel.Text = $"{ratName[RatSelection.SelectedIndex]}";
-            var chosenRat = ratName[RatSelection.SelectedIndex];
-            ageLabel.Text = name_to_age[chosenRat];
-            sessionLabel.Text = name_to_session[chosenRat].ToString();
-            CsvFiles.openSessionCsv(chosenRat);
-            ratWasChosen = true;
-            CsvFiles.openWriteToRatData();
-            foreach (var ratname in name_to_age.Keys)
-            {
-                if (ratname == chosenRat) 
+                //Felix(The BackroundWorker)
+                felix.DoWork += listen_to_arduino;
+                felix.RunWorkerCompleted += run_worker_completed;
+                felix.RunWorkerAsync();
+
+                selectButton.Hide();
+                RatSelection.Hide();
+                saveButton.Enabled = true;
+                ratSelectionLabel.Text = $"{ratName[RatSelection.SelectedIndex]}";
+                var chosenRat = ratName[RatSelection.SelectedIndex];
+                ageLabel.Text = name_to_age[chosenRat];
+                sessionLabel.Text = name_to_session[chosenRat].ToString();
+                CsvFiles.openSessionCsv(chosenRat);
+                ratWasChosen = true;
+                CsvFiles.openWriteToRatData();
+                foreach (var ratname in name_to_age.Keys)
                 {
-                    name_to_session[ratname]++;
+                    if (ratname == chosenRat)
+                    {
+                        name_to_session[ratname]++;
+                    }
+                    CsvFiles.ratdataWriter.Write($"{ratname},{name_to_age[ratname]},{name_to_session[ratname]}\n");
                 }
-                CsvFiles.ratdataWriter.Write($"{ratname},{name_to_age[ratname]},{name_to_session[ratname]}\n");
+                sessionNumber = (name_to_session[chosenRat] - 1).ToString();
+                ratbeingtested = ratName[RatSelection.SelectedIndex];
+                CsvFiles.openTimestampCsv(chosenRat, sessionNumber);
+                CsvFiles.timestampCsv.Write("Feeder,Type,Timestamp\n");
+                CsvFiles.ratdataClose();
             }
-            sessionNumber = (name_to_session[chosenRat]-1).ToString();
-            ratbeingtested = ratName[RatSelection.SelectedIndex];
-            CsvFiles.openTimestampCsv(chosenRat, sessionNumber);
-            CsvFiles.timestampCsv.Write("Feeder,Type,Timestamp\n");
-            CsvFiles.ratdataClose();
         }
 
         private void StartButtonClick(object sender, EventArgs e) //Clicking "Start" starts the timer and you can only start after you have selected a rat and locked it in
         {
+            fillButton.Hide();
             if (ratWasChosen)
             {
                 startButton.ForeColor = Color.AliceBlue;
@@ -266,6 +281,7 @@ namespace W_Maze_Gui
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            selectButton.Enabled = true;
         }
         private void SaveButtonClick(object sender, EventArgs e) //Hitting the save button saves the session info to SessionInfo_{rat#} as well as a screen shot of the GUI
         {
@@ -288,6 +304,7 @@ namespace W_Maze_Gui
                     $"C:\\Users\\Adele\\Documents\\Barnes Lab\\Wmaze\\RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots\\GUIscreenshot_{ratName[RatSelection.SelectedIndex]}_Session{sessionNumber}.gif",
                     ImageFormat.Gif);
                 saved = true;
+                cleanButton.Show();
             }
         }
         private void W_Maze_Gui_FormClosing(object sender, FormClosingEventArgs e) //Opens the exitConfirm form to ensure that you are purposefully exiting the GUI
@@ -323,6 +340,71 @@ namespace W_Maze_Gui
             }
         }
 
+        private void fillFeeders(object sender, EventArgs e)
+        {
+            var fill_feeders = new FillFeederWin();
+            fill_feeders.StartPosition = FormStartPosition.CenterParent;
+            fill_feeders.ShowDialog();
+        }
+
+        private void cleanFeeders(object sender, EventArgs e)
+        {
+            
+        }
+        public static void sendMessage(int button)
+        {
+            switch (button)
+            {
+                case 1:
+                    try
+                    {
+                        var message = new char[1] { 'X' };
+                        serialPort.Write(message, 0, 1);
+                    }
+                    catch (Exception ex) {; }
+                    break;
+                case 2:
+                    try
+                    {
+                        var message = new char[1] { 'Y' };
+                        serialPort.Write(message, 0, 1);
+                    }
+                    catch (Exception ex) {; }
+                    break;
+                case 3:
+                    try
+                    {
+                        var message = new char[1] { 'Z' };
+                        serialPort.Write(message, 0, 1);
+                    }
+                    catch (Exception ex) {; }
+                    break;
+                case 11:
+                    try
+                    {
+                        var message = new char[1] { 'x' };
+                        serialPort.Write(message, 0, 1);
+                    }
+                    catch (Exception ex) {; }
+                    break;
+                case 22:
+                    try
+                    {
+                        var message = new char[1] { 'y' };
+                        serialPort.Write(message, 0, 1);
+                    }
+                    catch (Exception ex) {; }
+                    break;
+                case 33:
+                    try
+                    {
+                        var message = new char[1] { 'z' };
+                        serialPort.Write(message, 0, 1);
+                    }
+                    catch (Exception ex) {; }
+                    break;
+            }
+        }
     }
 
 }
