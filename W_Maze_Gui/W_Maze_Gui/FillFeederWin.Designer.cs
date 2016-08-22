@@ -56,10 +56,10 @@
             // fill1
             // 
             this.fill1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fill1.Location = new System.Drawing.Point(103, 90);
+            this.fill1.Location = new System.Drawing.Point(102, 90);
             this.fill1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.fill1.Name = "fill1";
-            this.fill1.Size = new System.Drawing.Size(54, 38);
+            this.fill1.Size = new System.Drawing.Size(55, 38);
             this.fill1.TabIndex = 5;
             this.fill1.Text = "Fill F1";
             this.fill1.UseVisualStyleBackColor = true;
@@ -68,7 +68,7 @@
             // fill2
             // 
             this.fill2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fill2.Location = new System.Drawing.Point(208, 91);
+            this.fill2.Location = new System.Drawing.Point(208, 90);
             this.fill2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.fill2.Name = "fill2";
             this.fill2.Size = new System.Drawing.Size(56, 37);
@@ -80,10 +80,10 @@
             // fill3
             // 
             this.fill3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fill3.Location = new System.Drawing.Point(313, 89);
+            this.fill3.Location = new System.Drawing.Point(312, 89);
             this.fill3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.fill3.Name = "fill3";
-            this.fill3.Size = new System.Drawing.Size(54, 39);
+            this.fill3.Size = new System.Drawing.Size(56, 39);
             this.fill3.TabIndex = 7;
             this.fill3.Text = "Fill F3";
             this.fill3.UseVisualStyleBackColor = true;
@@ -108,7 +108,7 @@
             this.button2.BackColor = System.Drawing.Color.Red;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(208, 90);
+            this.button2.Location = new System.Drawing.Point(208, 89);
             this.button2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(56, 38);
@@ -122,10 +122,10 @@
             this.button3.BackColor = System.Drawing.Color.Red;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(313, 88);
+            this.button3.Location = new System.Drawing.Point(312, 88);
             this.button3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(54, 39);
+            this.button3.Size = new System.Drawing.Size(56, 39);
             this.button3.TabIndex = 10;
             this.button3.Text = "STOP";
             this.button3.UseVisualStyleBackColor = false;
