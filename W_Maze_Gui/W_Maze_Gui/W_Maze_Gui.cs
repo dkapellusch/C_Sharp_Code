@@ -45,13 +45,13 @@ namespace W_Maze_Gui
         public W_Maze_Gui()
         {
             CsvFiles.openRatDataCsv(); //open RatData.csv so we can read from it and access Rat info
-            //serialPort.BaudRate = 9600;
-            //serialPort.PortName = "COM3";
-            //serialPort.ReadTimeout = 10000;
-            //serialPort.Encoding = Encoding.UTF8;
-            //serialPort.DiscardNull = true;
-            //serialPort.WriteBufferSize = 10000;
-            //serialPort.Open();
+            serialPort.BaudRate = 9600;
+            serialPort.PortName = "COM3";
+            serialPort.ReadTimeout = 10000;
+            serialPort.Encoding = Encoding.UTF8;
+            serialPort.DiscardNull = true;
+            serialPort.WriteBufferSize = 10000;
+            serialPort.Open();
 
 
             while (!CsvFiles.ratdataReader.EndOfStream) //this reads the RatData.csv file and makes a dictionary for the ages and for the session number
@@ -206,6 +206,7 @@ namespace W_Maze_Gui
         private void SelectButtonClick(object sender, EventArgs e)
             //When you click "Select" you lock in the rat number and info
         {
+            cleanButton.Show();
             if (RatSelection.SelectedIndex >= 0)
             {
                 //Felix(The BackroundWorker)
@@ -290,21 +291,21 @@ namespace W_Maze_Gui
                 this.Show();
                 stopButton_Click(sender, e);
                 saveButton.ForeColor = Color.DarkGray;
+                saveButton.Enabled = false;
                 CsvFiles.sessionCsv.Write($"{this.sessionLabel.Text},{this.experimenterBox.Text},{DateTime.Now.ToString()},{this.display_time.Text},{this.correctNum.Text},{this.initialNum.Text},{this.outboundNum.Text},{this.inboundNum.Text},{this.repeatNum.Text},{this.totalErrNum.Text},{this.totalNum.Text},{this.notesBox.Text}\n");
                 CsvFiles.close();
 
-                if (!Directory.Exists ($"C:\\Users\\Adele\\Documents\\Barnes Lab\\Wmaze\\RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots"))
+                if (!Directory.Exists ($"C:\\Users\\akoutia\\Documents\\Barnes Lab\\Wmaze\\RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots"))
                 {
                     Directory.CreateDirectory(
-                        $"C:\\Users\\Adele\\Documents\\Barnes Lab\\Wmaze\\RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots");
+                        $"C:\\Users\\akoutia\\Documents\\Barnes Lab\\Wmaze\\RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots");
                 }
                 var bmpScreenCapture = new Bitmap(this.Width, this.Height);
                 DrawToBitmap(bmpScreenCapture, new Rectangle(0, 0, bmpScreenCapture.Width, bmpScreenCapture.Height));
                 bmpScreenCapture.Save(
-                    $"C:\\Users\\Adele\\Documents\\Barnes Lab\\Wmaze\\RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots\\GUIscreenshot_{ratName[RatSelection.SelectedIndex]}_Session{sessionNumber}.gif",
+                    $"C:\\Users\\akoutia\\Documents\\Barnes Lab\\Wmaze\\RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots\\GUIscreenshot_{ratName[RatSelection.SelectedIndex]}_Session{sessionNumber}.gif",
                     ImageFormat.Gif);
                 saved = true;
-                cleanButton.Show();
             }
         }
         private void W_Maze_Gui_FormClosing(object sender, FormClosingEventArgs e) //Opens the exitConfirm form to ensure that you are purposefully exiting the GUI
@@ -349,57 +350,55 @@ namespace W_Maze_Gui
 
         private void cleanFeeders(object sender, EventArgs e)
         {
+            var fill_feeders = new FillFeederWin();
+            fill_feeders.timeToClean();
+            fill_feeders.StartPosition = FormStartPosition.CenterParent;
+            fill_feeders.ShowDialog();
             
         }
-        public static void sendMessage(int button)
+        public static void sendMessage(string button)
         {
             switch (button)
             {
-                case 1:
+                case "1":
                     try
                     {
-                        var message = new char[1] { 'X' };
-                        serialPort.Write(message, 0, 1);
+                        serialPort.Write(new[]{'X'}, 0, 1);
                     }
                     catch (Exception ex) {; }
                     break;
-                case 2:
+                case "2":
                     try
                     {
-                        var message = new char[1] { 'Y' };
-                        serialPort.Write(message, 0, 1);
+                        serialPort.Write(new[]{'Y'}, 0, 1);
                     }
                     catch (Exception ex) {; }
                     break;
-                case 3:
+                case "3":
                     try
                     {
-                        var message = new char[1] { 'Z' };
-                        serialPort.Write(message, 0, 1);
+                        serialPort.Write(new[]{'Z'}, 0, 1);
                     }
                     catch (Exception ex) {; }
                     break;
-                case 11:
+                case "11":
                     try
                     {
-                        var message = new char[1] { 'x' };
-                        serialPort.Write(message, 0, 1);
+                        serialPort.Write(new []{'x'}, 0, 1);
                     }
                     catch (Exception ex) {; }
                     break;
-                case 22:
+                case "22":
                     try
                     {
-                        var message = new char[1] { 'y' };
-                        serialPort.Write(message, 0, 1);
+                        serialPort.Write(new []{'y'}, 0, 1);
                     }
                     catch (Exception ex) {; }
                     break;
-                case 33:
+                case "33":
                     try
                     {
-                        var message = new char[1] { 'z' };
-                        serialPort.Write(message, 0, 1);
+                        serialPort.Write(new []{'z'}, 0, 1);
                     }
                     catch (Exception ex) {; }
                     break;

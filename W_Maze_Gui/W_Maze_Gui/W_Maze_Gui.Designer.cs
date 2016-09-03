@@ -573,7 +573,7 @@
             this.fillButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.fillButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.fillButton.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.fillButton.Location = new System.Drawing.Point(63, 357);
+            this.fillButton.Location = new System.Drawing.Point(63, 347);
             this.fillButton.Name = "fillButton";
             this.fillButton.Size = new System.Drawing.Size(86, 36);
             this.fillButton.TabIndex = 37;
@@ -586,7 +586,7 @@
             this.cleanButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cleanButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cleanButton.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.cleanButton.Location = new System.Drawing.Point(63, 399);
+            this.cleanButton.Location = new System.Drawing.Point(63, 417);
             this.cleanButton.Name = "cleanButton";
             this.cleanButton.Size = new System.Drawing.Size(86, 36);
             this.cleanButton.TabIndex = 38;
