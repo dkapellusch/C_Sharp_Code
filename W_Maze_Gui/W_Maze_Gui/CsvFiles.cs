@@ -33,8 +33,7 @@ namespace W_Maze_Gui
                 Directory.CreateDirectory($"C:\\Users\\akoutia\\Documents\\Barnes Lab\\Wmaze\\RatData\\{number}");
             }
             sessionCsv = new StreamWriter(($"C:\\Users\\akoutia\\Documents\\Barnes Lab\\Wmaze\\RatData\\{number}\\SessionInfo_{number}.csv"),true);
-
-            
+     
         }
         public static void openTimestampCsv(string number, string session)
         {

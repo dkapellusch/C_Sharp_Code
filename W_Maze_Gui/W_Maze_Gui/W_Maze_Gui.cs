@@ -28,6 +28,7 @@ namespace W_Maze_Gui
         private List<string> ratSession = new List<string>();
         private Dictionary<string, string> name_to_age = new Dictionary<string, string>();
         private Dictionary<string, int> name_to_session = new Dictionary<string, int>();
+        private Dictionary<string, string> name_to_cohort = new Dictionary<string, string>();
         private static SerialPort serialPort = new SerialPort(); //recently made static; if there are issues with making an instance of W_Maze_GUI, change back
         public BackgroundWorker felix = new BackgroundWorker();
         public int correctCnt;
@@ -40,7 +41,12 @@ namespace W_Maze_Gui
         public int totes;
         public string ratbeingtested;
         public string lastMessage;
-
+        public string year;
+        public string month;
+        public string day;
+        public string minute;
+        public string hour;
+    
 
         public W_Maze_Gui()
         {
@@ -60,6 +66,7 @@ namespace W_Maze_Gui
                 var vals = line.Split(',');
                 name_to_age.Add(vals[0], vals[1]);
                 name_to_session.Add(vals[0], int.Parse(vals[2]));
+                name_to_cohort.Add(vals[0], vals[3]);
                 ratName.Add(vals[0]);
             }
             CsvFiles.closeRatDataCsv();
@@ -70,16 +77,31 @@ namespace W_Maze_Gui
             foreach (var rat in ratName) this.RatSelection.Items.Add(rat);
             
         }
-        private void W_Maze_Gui_Load(object sender, EventArgs e)
+
+        private string fixDateTime(int x)
+        {
+            if (x < 10)
+            {
+                return ($"0{x}");
+            }
+            else
+            {
+                return x.ToString();
+            }
+        }
+
+        private void W_Maze_Gui_Load(object sender, EventArgs e) //When the Gui window loads do the following
         {
             cleanButton.Hide();
             selectButton.Enabled = false;
-            try
-            {
-                var message = new char[1] { 'L' };
-                serialPort.Write(message, 0, 1);
-            }
-            catch (Exception ex) {; }
+
+            System.DateTime moment = new System.DateTime();
+            year = (moment.Year).ToString();
+            month = fixDateTime(moment.Month);
+            day = fixDateTime(moment.Day);
+            minute = fixDateTime(moment.Minute);
+            hour = fixDateTime(moment.Hour);
+
         }
 
         public void listen_to_arduino(object sender, DoWorkEventArgs e) //The "listener" that is the mediator between the worker (Felix) and the updater
@@ -230,7 +252,7 @@ namespace W_Maze_Gui
                     {
                         name_to_session[ratname]++;
                     }
-                    CsvFiles.ratdataWriter.Write($"{ratname},{name_to_age[ratname]},{name_to_session[ratname]}\n");
+                    CsvFiles.ratdataWriter.Write($"{ratname},{name_to_age[ratname]},{name_to_session[ratname]},{name_to_cohort[ratname]}\n");
                 }
                 sessionNumber = (name_to_session[chosenRat] - 1).ToString();
                 ratbeingtested = ratName[RatSelection.SelectedIndex];
@@ -243,6 +265,13 @@ namespace W_Maze_Gui
         private void StartButtonClick(object sender, EventArgs e) //Clicking "Start" starts the timer and you can only start after you have selected a rat and locked it in
         {
             fillButton.Hide();
+            try //sends a message to the UNO to reinitialize variables
+            {
+                var message = new char[1] { 'L' };
+                serialPort.Write(message, 0, 1);
+            }
+            catch (Exception ex) {; }
+
             if (ratWasChosen)
             {
                 startButton.ForeColor = Color.AliceBlue;
@@ -280,7 +309,7 @@ namespace W_Maze_Gui
             Recording_Time.Enabled = false;
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) //Enables the select button when you choose a rat from the combo box
         {
             selectButton.Enabled = true;
         }
@@ -306,6 +335,16 @@ namespace W_Maze_Gui
                     $"C:\\Users\\akoutia\\Documents\\Barnes Lab\\Wmaze\\RatData\\{ratName[RatSelection.SelectedIndex]}\\ScreenShots\\GUIscreenshot_{ratName[RatSelection.SelectedIndex]}_Session{sessionNumber}.gif",
                     ImageFormat.Gif);
                 saved = true;
+
+                if (File.Exists($"C:\\Users\\akoutia\\Documents\\Barnes Lab\\Wmaze\\Videos\\Composite_{year}{month}{day}_{hour}{minute}"))
+                {
+                    if (!Directory.Exists($"C:\\Users\\akoutia\\Documents\\Barnes Lab\\Wmaze\\Videos\\{RatSelection.SelectedIndex}"))
+                    {
+                        Directory.CreateDirectory($"C:\\Users\\akoutia\\Documents\\Barnes Lab\\Wmaze\\Videos\\{RatSelection.SelectedIndex}");
+                    }
+
+                    File.Move($"C:\\Users\\akoutia\\Documents\\Barnes Lab\\Wmaze\\Videos\\Composite_{year}{month}{day}_{hour}{minute}.ts", $"C:\\Users\\akoutia\\Documents\\Barnes Lab\\Wmaze\\Videos\\{RatSelection.SelectedIndex}\\Composite_{year}{month}{day}_{hour}{minute}.mpeg");
+                }
             }
         }
         private void W_Maze_Gui_FormClosing(object sender, FormClosingEventArgs e) //Opens the exitConfirm form to ensure that you are purposefully exiting the GUI
@@ -341,14 +380,14 @@ namespace W_Maze_Gui
             }
         }
 
-        private void fillFeeders(object sender, EventArgs e)
+        private void fillFeeders(object sender, EventArgs e) //opens the fill feeders window
         {
             var fill_feeders = new FillFeederWin();
             fill_feeders.StartPosition = FormStartPosition.CenterParent;
             fill_feeders.ShowDialog();
         }
 
-        private void cleanFeeders(object sender, EventArgs e)
+        private void cleanFeeders(object sender, EventArgs e)   //opens the clean feeders window
         {
             var fill_feeders = new FillFeederWin();
             fill_feeders.timeToClean();
@@ -356,7 +395,7 @@ namespace W_Maze_Gui
             fill_feeders.ShowDialog();
             
         }
-        public static void sendMessage(string button)
+        public static void sendMessage(string button)  //handles messages to be sent to the UNO for filling/cleaning
         {
             switch (button)
             {
@@ -403,6 +442,11 @@ namespace W_Maze_Gui
                     catch (Exception ex) {; }
                     break;
             }
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 

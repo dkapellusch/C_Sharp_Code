@@ -129,7 +129,7 @@
             this.RatSelection.IntegralHeight = false;
             this.RatSelection.Location = new System.Drawing.Point(602, 67);
             this.RatSelection.Name = "RatSelection";
-            this.RatSelection.Size = new System.Drawing.Size(101, 24);
+            this.RatSelection.Size = new System.Drawing.Size(101, 21);
             this.RatSelection.Sorted = true;
             this.RatSelection.TabIndex = 3;
             this.RatSelection.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
@@ -148,7 +148,7 @@
             this.display_time.Location = new System.Drawing.Point(293, 67);
             this.display_time.MinimumSize = new System.Drawing.Size(200, 100);
             this.display_time.Name = "display_time";
-            this.display_time.Size = new System.Drawing.Size(237, 100);
+            this.display_time.Size = new System.Drawing.Size(200, 100);
             this.display_time.TabIndex = 5;
             this.display_time.Text = "00:00";
             // 
@@ -159,7 +159,7 @@
             this.label1.ForeColor = System.Drawing.Color.RoyalBlue;
             this.label1.Location = new System.Drawing.Point(598, 44);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(142, 25);
+            this.label1.Size = new System.Drawing.Size(109, 20);
             this.label1.TabIndex = 6;
             this.label1.Text = "Rat Number";
             // 
@@ -170,7 +170,7 @@
             this.feederVisitTitle.ForeColor = System.Drawing.Color.RoyalBlue;
             this.feederVisitTitle.Location = new System.Drawing.Point(15, 19);
             this.feederVisitTitle.Name = "feederVisitTitle";
-            this.feederVisitTitle.Size = new System.Drawing.Size(194, 27);
+            this.feederVisitTitle.Size = new System.Drawing.Size(153, 22);
             this.feederVisitTitle.TabIndex = 8;
             this.feederVisitTitle.Text = "Feeder Visits";
             // 
@@ -181,7 +181,7 @@
             this.Correct.ForeColor = System.Drawing.SystemColors.Control;
             this.Correct.Location = new System.Drawing.Point(3, 8);
             this.Correct.Name = "Correct";
-            this.Correct.Size = new System.Drawing.Size(76, 24);
+            this.Correct.Size = new System.Drawing.Size(62, 18);
             this.Correct.TabIndex = 9;
             this.Correct.Text = "Correct:";
             this.Correct.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -193,7 +193,7 @@
             this.totalIncorrect.ForeColor = System.Drawing.SystemColors.Control;
             this.totalIncorrect.Location = new System.Drawing.Point(3, 3);
             this.totalIncorrect.Name = "totalIncorrect";
-            this.totalIncorrect.Size = new System.Drawing.Size(83, 24);
+            this.totalIncorrect.Size = new System.Drawing.Size(66, 18);
             this.totalIncorrect.TabIndex = 10;
             this.totalIncorrect.Text = "Incorrect";
             this.totalIncorrect.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -205,7 +205,7 @@
             this.Total.ForeColor = System.Drawing.SystemColors.Control;
             this.Total.Location = new System.Drawing.Point(3, 9);
             this.Total.Name = "Total";
-            this.Total.Size = new System.Drawing.Size(62, 24);
+            this.Total.Size = new System.Drawing.Size(51, 18);
             this.Total.TabIndex = 11;
             this.Total.Text = "Total:";
             this.Total.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -217,7 +217,7 @@
             this.label2.ForeColor = System.Drawing.SystemColors.Control;
             this.label2.Location = new System.Drawing.Point(3, 18);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(54, 24);
+            this.label2.Size = new System.Drawing.Size(41, 18);
             this.label2.TabIndex = 14;
             this.label2.Text = "Age:";
             // 
@@ -228,7 +228,7 @@
             this.label3.ForeColor = System.Drawing.SystemColors.Control;
             this.label3.Location = new System.Drawing.Point(3, 72);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(129, 24);
+            this.label3.Size = new System.Drawing.Size(106, 18);
             this.label3.TabIndex = 16;
             this.label3.Text = "Session No.:";
             // 
@@ -239,7 +239,7 @@
             this.ageLabel.ForeColor = System.Drawing.Color.Cyan;
             this.ageLabel.Location = new System.Drawing.Point(47, 18);
             this.ageLabel.Name = "ageLabel";
-            this.ageLabel.Size = new System.Drawing.Size(0, 24);
+            this.ageLabel.Size = new System.Drawing.Size(0, 18);
             this.ageLabel.TabIndex = 16;
             // 
             // sessionLabel
@@ -249,7 +249,7 @@
             this.sessionLabel.ForeColor = System.Drawing.Color.Cyan;
             this.sessionLabel.Location = new System.Drawing.Point(112, 72);
             this.sessionLabel.Name = "sessionLabel";
-            this.sessionLabel.Size = new System.Drawing.Size(0, 24);
+            this.sessionLabel.Size = new System.Drawing.Size(0, 18);
             this.sessionLabel.TabIndex = 17;
             // 
             // panel1
@@ -280,7 +280,7 @@
             this.correctNum.ForeColor = System.Drawing.Color.Cyan;
             this.correctNum.Location = new System.Drawing.Point(24, 6);
             this.correctNum.Name = "correctNum";
-            this.correctNum.Size = new System.Drawing.Size(24, 25);
+            this.correctNum.Size = new System.Drawing.Size(19, 20);
             this.correctNum.TabIndex = 20;
             this.correctNum.Text = "0";
             // 
@@ -349,7 +349,7 @@
             this.repeatNum.ForeColor = System.Drawing.Color.PaleTurquoise;
             this.repeatNum.Location = new System.Drawing.Point(93, 103);
             this.repeatNum.Name = "repeatNum";
-            this.repeatNum.Size = new System.Drawing.Size(20, 24);
+            this.repeatNum.Size = new System.Drawing.Size(16, 18);
             this.repeatNum.TabIndex = 18;
             this.repeatNum.Text = "0";
             // 
@@ -360,7 +360,7 @@
             this.inboundNum.ForeColor = System.Drawing.Color.PaleTurquoise;
             this.inboundNum.Location = new System.Drawing.Point(93, 79);
             this.inboundNum.Name = "inboundNum";
-            this.inboundNum.Size = new System.Drawing.Size(20, 24);
+            this.inboundNum.Size = new System.Drawing.Size(16, 18);
             this.inboundNum.TabIndex = 17;
             this.inboundNum.Text = "0";
             // 
@@ -371,7 +371,7 @@
             this.outboundNum.ForeColor = System.Drawing.Color.PaleTurquoise;
             this.outboundNum.Location = new System.Drawing.Point(93, 53);
             this.outboundNum.Name = "outboundNum";
-            this.outboundNum.Size = new System.Drawing.Size(20, 24);
+            this.outboundNum.Size = new System.Drawing.Size(16, 18);
             this.outboundNum.TabIndex = 16;
             this.outboundNum.Text = "0";
             // 
@@ -382,7 +382,7 @@
             this.label8.ForeColor = System.Drawing.Color.White;
             this.label8.Location = new System.Drawing.Point(36, 103);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(68, 24);
+            this.label8.Size = new System.Drawing.Size(53, 18);
             this.label8.TabIndex = 15;
             this.label8.Text = "repeat:";
             // 
@@ -393,7 +393,7 @@
             this.label7.ForeColor = System.Drawing.Color.White;
             this.label7.Location = new System.Drawing.Point(25, 79);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(85, 24);
+            this.label7.Size = new System.Drawing.Size(64, 18);
             this.label7.TabIndex = 14;
             this.label7.Text = "inbound:";
             // 
@@ -404,7 +404,7 @@
             this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Location = new System.Drawing.Point(15, 53);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(96, 24);
+            this.label6.Size = new System.Drawing.Size(74, 18);
             this.label6.TabIndex = 13;
             this.label6.Text = "outbound:";
             // 
@@ -415,7 +415,7 @@
             this.label5.ForeColor = System.Drawing.Color.White;
             this.label5.Location = new System.Drawing.Point(45, 28);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(56, 24);
+            this.label5.Size = new System.Drawing.Size(44, 18);
             this.label5.TabIndex = 12;
             this.label5.Text = "initial:";
             // 
@@ -426,7 +426,7 @@
             this.initialNum.ForeColor = System.Drawing.Color.PaleTurquoise;
             this.initialNum.Location = new System.Drawing.Point(93, 28);
             this.initialNum.Name = "initialNum";
-            this.initialNum.Size = new System.Drawing.Size(20, 24);
+            this.initialNum.Size = new System.Drawing.Size(16, 18);
             this.initialNum.TabIndex = 11;
             this.initialNum.Text = "0";
             // 
@@ -447,7 +447,7 @@
             this.totalNum.ForeColor = System.Drawing.Color.Cyan;
             this.totalNum.Location = new System.Drawing.Point(24, 178);
             this.totalNum.Name = "totalNum";
-            this.totalNum.Size = new System.Drawing.Size(24, 25);
+            this.totalNum.Size = new System.Drawing.Size(19, 20);
             this.totalNum.TabIndex = 26;
             this.totalNum.Text = "0";
             // 
@@ -458,7 +458,7 @@
             this.experimenterLabel.ForeColor = System.Drawing.Color.RoyalBlue;
             this.experimenterLabel.Location = new System.Drawing.Point(260, 320);
             this.experimenterLabel.Name = "experimenterLabel";
-            this.experimenterLabel.Size = new System.Drawing.Size(153, 22);
+            this.experimenterLabel.Size = new System.Drawing.Size(125, 17);
             this.experimenterLabel.TabIndex = 26;
             this.experimenterLabel.Text = "Experimenter:";
             // 
@@ -470,7 +470,7 @@
             this.experimenterBox.ForeColor = System.Drawing.Color.White;
             this.experimenterBox.Location = new System.Drawing.Point(380, 321);
             this.experimenterBox.Name = "experimenterBox";
-            this.experimenterBox.Size = new System.Drawing.Size(137, 19);
+            this.experimenterBox.Size = new System.Drawing.Size(137, 15);
             this.experimenterBox.TabIndex = 27;
             // 
             // notesBox
@@ -492,7 +492,7 @@
             this.label4.ForeColor = System.Drawing.Color.RoyalBlue;
             this.label4.Location = new System.Drawing.Point(260, 371);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(65, 22);
+            this.label4.Size = new System.Drawing.Size(53, 17);
             this.label4.TabIndex = 29;
             this.label4.Text = "Notes";
             // 
@@ -517,7 +517,7 @@
             this.ratSelectionLabel.ForeColor = System.Drawing.Color.Cyan;
             this.ratSelectionLabel.Location = new System.Drawing.Point(622, 68);
             this.ratSelectionLabel.Name = "ratSelectionLabel";
-            this.ratSelectionLabel.Size = new System.Drawing.Size(0, 25);
+            this.ratSelectionLabel.Size = new System.Drawing.Size(0, 20);
             this.ratSelectionLabel.TabIndex = 31;
             // 
             // totalErrNum
@@ -527,7 +527,7 @@
             this.totalErrNum.ForeColor = System.Drawing.Color.Cyan;
             this.totalErrNum.Location = new System.Drawing.Point(24, 53);
             this.totalErrNum.Name = "totalErrNum";
-            this.totalErrNum.Size = new System.Drawing.Size(24, 25);
+            this.totalErrNum.Size = new System.Drawing.Size(19, 20);
             this.totalErrNum.TabIndex = 19;
             this.totalErrNum.Text = "0";
             // 
@@ -564,7 +564,7 @@
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(45, 322);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(0, 17);
+            this.label11.Size = new System.Drawing.Size(0, 13);
             this.label11.TabIndex = 36;
             // 
             // fillButton
