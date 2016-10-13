@@ -29,7 +29,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(W_Maze_Gui));
-            this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
+            serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.startButton = new System.Windows.Forms.Button();
             this.stopButton = new System.Windows.Forms.Button();
             this.RatSelection = new System.Windows.Forms.ComboBox();
@@ -132,8 +132,8 @@
             this.RatSelection.Size = new System.Drawing.Size(101, 21);
             this.RatSelection.Sorted = true;
             this.RatSelection.TabIndex = 3;
-            this.RatSelection.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
-            this.RatSelection.Click += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.RatSelection.SelectedIndexChanged += new System.EventHandler(this.ratSelectionBox_SelectedIndexChanged);
+            this.RatSelection.Click += new System.EventHandler(this.ratSelectionBox_SelectedIndexChanged);
             // 
             // Recording_Time
             // 

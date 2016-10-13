@@ -1,59 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
+﻿using System.IO;
 
 namespace W_Maze_Gui
 {
     public static class CsvFiles
     {
-        public static StreamWriter sessionCsv;
-        public static StreamWriter timestampCsv;
-        public static StreamReader ratdataReader;
-        public static StreamWriter ratdataWriter;
-        public static void openRatDataCsv()
+        public static StreamWriter SessionCsv;
+        public static StreamWriter TimestampCsv;
+        public static StreamReader RatdataReader;
+        public static StreamWriter RatdataWriter;
+        private const string RatDataPath = @"C:\Users\akoutia\Documents\Barnes Lab\Wmaze\RatData\RatData.Csv";
+        private const string RatDirectoryPath = @"C:\Users\akoutia\Documents\Barnes Lab\Wmaze\RatData\";
+        public static void OpenRatDataCsv()
         {
             //ratdataReader = new StreamReader("RatData.csv",true);
-            ratdataReader = new StreamReader($"C:\\Users\\akoutia\\Documents\\Barnes Lab\\Wmaze\\RatData\\RatData.Csv");
-        }
-        public static void openWriteToRatData()
-        {
-            ratdataWriter = new StreamWriter($"C:\\Users\\akoutia\\Documents\\Barnes Lab\\Wmaze\\RatData\\RatData.Csv");
-        }
-        public static void closeRatDataCsv()
-        {
-            ratdataReader.Close();
-        }
-        public static void openSessionCsv(string number)
-        {
-            if (!Directory.Exists($"C:\\Users\\akoutia\\Documents\\Barnes Lab\\Wmaze\\RatData\\{number}"))
-            {
-                Directory.CreateDirectory($"C:\\Users\\akoutia\\Documents\\Barnes Lab\\Wmaze\\RatData\\{number}");
-            }
-            sessionCsv = new StreamWriter(($"C:\\Users\\akoutia\\Documents\\Barnes Lab\\Wmaze\\RatData\\{number}\\SessionInfo_{number}.csv"),true);
-     
-        }
-        public static void openTimestampCsv(string number, string session)
-        {
-            if (!Directory.Exists($"C:\\Users\\akoutia\\Documents\\Barnes Lab\\Wmaze\\RatData\\{number}\\TimeStamps"))
-                {
-                Directory.CreateDirectory($"C:\\Users\\akoutia\\Documents\\Barnes Lab\\Wmaze\\RatData\\{number}\\TimeStamps");
-                }
-                timestampCsv = new StreamWriter($"C:\\Users\\akoutia\\Documents\\Barnes Lab\\Wmaze\\RatData\\{number}\\TimeStamps\\TimeStamps_{number}_Session{session}.csv");
+
+            RatdataReader = new StreamReader(RatDataPath);
         }
 
-        public static void close()
+        public static void OpenWriteToRatData()
         {
-            timestampCsv.Close();
-            sessionCsv.Close();
+            RatdataWriter = new StreamWriter(RatDataPath);
         }
 
-        public static void ratdataClose()
+        public static void CloseRatDataCsv()
         {
-            ratdataWriter.Close();
+            RatdataReader.Close();
         }
 
+        public static void OpenSessionCsv(string number)
+        {
+            if (!Directory.Exists(RatDirectoryPath + number))
+                Directory.CreateDirectory(RatDirectoryPath + number);
+            SessionCsv =
+                new StreamWriter(
+                    RatDirectoryPath + number + $@"\SessionInfo_{number}.csv",
+                    true);
+        }
+
+        public static void OpenTimestampCsv(string number, string session)
+        {
+            if (!Directory.Exists($@"C:\Users\akoutia\Documents\Barnes Lab\Wmaze\RatData\{number}\TimeStamps"))
+                Directory.CreateDirectory(
+                    $"C:\\Users\\akoutia\\Documents\\Barnes Lab\\Wmaze\\RatData\\{number}\\TimeStamps");
+            TimestampCsv =
+                new StreamWriter(
+                    $"C:\\Users\\akoutia\\Documents\\Barnes Lab\\Wmaze\\RatData\\{number}\\TimeStamps\\TimeStamps_{number}_Session{session}.csv");
+        }
+
+        public static void Close()
+        {
+            TimestampCsv.Close();
+            SessionCsv.Close();
+        }
+
+        public static void RatdataClose()
+        {
+            RatdataWriter.Close();
+        }
     }
 }
