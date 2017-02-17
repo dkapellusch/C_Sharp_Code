@@ -7,6 +7,7 @@ using System.IO;
 using System.IO.Ports;
 using System.Text;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 //using System.Imaging;
 
@@ -47,6 +48,7 @@ namespace W_Maze_Gui
         public double corOut = 0;
         public double percentCor = 0;
         public int last = 0;
+        public bool newSesh = false;
 
 
         public W_Maze_Gui()
@@ -59,7 +61,6 @@ namespace W_Maze_Gui
             serialPort.DiscardNull = true;
             serialPort.WriteBufferSize = 10000;
             serialPort.Open();
-
 
             while (!CsvFiles.RatdataReader.EndOfStream)
                 //this reads the RatData.csv file and makes a dictionary for the ages and for the session number
@@ -78,7 +79,7 @@ namespace W_Maze_Gui
             foreach (var rat in ratName) RatSelection.Items.Add(rat);
         }
 
-        private string fixDateTime(int x)
+        private static string fixDateTime(int x)
         {
             return x < 10 ? $"0{x}" : x.ToString();
         }
@@ -150,21 +151,6 @@ namespace W_Maze_Gui
                 startButton.ForeColor = Color.AliceBlue;
                 Recording_Time.Enabled = true;
                 updateTime();
-
-                correctCnt = 0;
-                inboundCnt = 0;
-                outboundCnt = 0;
-                repeatCnt = 0;
-                initialCnt = 0;
-                totes = 0;
-
-                correctNum.Text = "0";
-                inboundNum.Text = "0";
-                outboundNum.Text = "0";
-                repeatNum.Text = "0";
-                initialNum.Text = "0";
-                totalErrNum.Text = "0";
-                totalNum.Text = "0";
             }
             else
             {
@@ -172,28 +158,11 @@ namespace W_Maze_Gui
                 ratWindow.StartPosition = FormStartPosition.CenterParent;
                 ratWindow.ShowDialog();
             }
+
             try //sends a message to the UNO to reinitialize variables
             {
                 var message = new char[1] {'L'};
                 serialPort.Write(message, 0, 1);
-                correctCnt = 0;
-                inboundCnt = 0;
-                outboundCnt = 0;
-                repeatCnt = 0;
-                initialCnt = 0;
-                totes = 0;
-                corOut = 0;
-                percentCor = 0;
-
-                correctNum.Text = "0";
-                inboundNum.Text = "0";
-                outboundNum.Text = "0";
-                repeatNum.Text = "0";
-                initialNum.Text = "0";
-                totalErrNum.Text = "0";
-                totalNum.Text = "0";
-
-
             }
             catch (Exception)
             {
@@ -389,16 +358,39 @@ namespace W_Maze_Gui
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         public void run_worker_completed(object sender, RunWorkerCompletedEventArgs e)
             //The updater that updates the GUI with the new info and writes to the Timestamp CSV
         {
-            if (!e.Cancelled && (e.Error == null) && (e.Result != null) && SessionHasBegun)
+            if (!e.Cancelled && (e.Error == null) && (e.Result != null) && SessionHasBegun && newSesh)
             {
                 var messageType = e.Result.ToString().Substring(0, 1);
                 switch (messageType)
                 {
                     case "w":
                         startButton.ForeColor = Color.White;
+                        break;
+                    case "G":
+                        //correctCnt = 0;
+                        //inboundCnt = 0;
+                        //outboundCnt = 0;
+                        //repeatCnt = 0;
+                        //initialCnt = 0;
+                        //totes = 0;
+
+                        //correctNum.Text = "0";
+                        //inboundNum.Text = "0";
+                        //outboundNum.Text = "0";
+                        //repeatNum.Text = "0";
+                        //initialNum.Text = "0";
+                        //totalErrNum.Text = "0";
+                        //totalNum.Text = "0";
+                        //corOutNum.Text = "00";
+                        newSesh = true;
                         break;
                     case "c":
                         correctCnt++;
@@ -516,6 +508,7 @@ namespace W_Maze_Gui
                         }
 
                         break;
+               
                 }
                 totes = inboundCnt + repeatCnt + initialCnt + outboundCnt;
                 totalErrNum.Text = totes.ToString();
