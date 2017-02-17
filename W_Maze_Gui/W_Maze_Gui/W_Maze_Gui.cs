@@ -27,25 +27,26 @@ namespace W_Maze_Gui
         public string day;
         public BackgroundWorker felix = new BackgroundWorker();
         public string hour;
-        public float inboundCnt;
-        public float initialCnt;
+        public double inboundCnt;
+        public double initialCnt;
         public string lastMessage;
         public string minute;
         public string month;
-        public float outboundCnt;
+        public double outboundCnt;
         private List<string> ratAge = new List<string>();
         public string ratbeingtested;
         private List<string> ratSession = new List<string>();
         private bool ratWasChosen;
-        public float repeatCnt;
+        public double repeatCnt;
         public bool saved;
         private bool SessionHasBegun;
         public string sessionNumber;
         public bool splash = true;
-        public float totes;
+        public double totes;
         public string year;
-        public float corOut = 0;
-        public float percentCor = 0;
+        public double corOut = 0;
+        public double percentCor = 0;
+        public int last = 0;
 
 
         public W_Maze_Gui()
@@ -408,13 +409,15 @@ namespace W_Maze_Gui
                         inboundCnt++;
                         inboundNum.Text = inboundCnt.ToString();
                         lastMessage = "i";
+                        nextCorrect.Text = "Feeder 2";
                         break;
                     case "o":
                         outboundCnt++;
                         outboundNum.Text = outboundCnt.ToString();
                         lastMessage = "o";
-                        percentCor = ((corOut) / (outboundCnt + corOut)) * 100;
+                        percentCor = Math.Round((((corOut) / (outboundCnt + corOut)) * 100),0,MidpointRounding.AwayFromZero);
                         percentCorrect.Text = $"{percentCor.ToString()}%";
+                        nextCorrect.Text = "Feeder 2";
                         break;
                     case "r":
                         repeatCnt++;
@@ -433,8 +436,10 @@ namespace W_Maze_Gui
                                 CsvFiles.TimestampCsv.Write($"1,Correct,{display_time.Text}\n");
                                 corOut++;
                                 corOutNum.Text = corOut.ToString();
-                                percentCor = ((corOut)/(outboundCnt + corOut)) * 100 ;
+                                percentCor = Math.Round((((corOut) / (outboundCnt + corOut)) * 100), 0, MidpointRounding.AwayFromZero);
                                 percentCorrect.Text = $"{percentCor.ToString()}%";
+                                last = 1;
+                                nextCorrect.Text = "Feeder 2";
                                 break;
                             case "i":
                                 CsvFiles.TimestampCsv.Write($"1,Inbound Error,{display_time.Text}\n");
@@ -456,6 +461,18 @@ namespace W_Maze_Gui
                         {
                             case "c":
                                 CsvFiles.TimestampCsv.Write($"2,Correct,{display_time.Text}\n");
+                                if (last == 0)
+                                {
+                                    nextCorrect.Text = "Feeder 1/3";
+                                }
+                                if (last == 1)
+                                {
+                                    nextCorrect.Text = "Feeder 3";
+                                }
+                                if (last == 3)
+                                {
+                                    nextCorrect.Text = "Feeder 1";
+                                }
                                 break;
                             case "i":
                                 CsvFiles.TimestampCsv.Write($"2,Inbound Error,{display_time.Text}\n");
@@ -479,8 +496,10 @@ namespace W_Maze_Gui
                                 CsvFiles.TimestampCsv.Write($"3,Correct,{display_time.Text}\n");
                                 corOut++;
                                 corOutNum.Text = corOut.ToString();
-                                percentCor = ((corOut) / (outboundCnt + corOut)) * 100;
+                                percentCor = Math.Round((((corOut) / (outboundCnt + corOut)) * 100), 0, MidpointRounding.AwayFromZero);
                                 percentCorrect.Text = $"{percentCor.ToString()}%";
+                                last = 3;
+                                nextCorrect.Text = "Feeder 2";
                                 break;
                             case "i":
                                 CsvFiles.TimestampCsv.Write($"3,Inbound Error,{display_time.Text}\n");

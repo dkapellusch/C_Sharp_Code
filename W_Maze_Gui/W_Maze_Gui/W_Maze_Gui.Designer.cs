@@ -81,6 +81,9 @@
             this.panel12 = new System.Windows.Forms.Panel();
             this.percentCorrect = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.panel13 = new System.Windows.Forms.Panel();
+            this.nextCorrect = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -92,6 +95,7 @@
             this.panel10.SuspendLayout();
             this.panel11.SuspendLayout();
             this.panel12.SuspendLayout();
+            this.panel13.SuspendLayout();
             this.SuspendLayout();
             // 
             // startButton
@@ -101,9 +105,9 @@
             this.startButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.startButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.startButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(40)))), ((int)(((byte)(0)))));
-            this.startButton.Location = new System.Drawing.Point(333, 209);
+            this.startButton.Location = new System.Drawing.Point(327, 195);
             this.startButton.Name = "startButton";
-            this.startButton.Size = new System.Drawing.Size(92, 44);
+            this.startButton.Size = new System.Drawing.Size(101, 54);
             this.startButton.TabIndex = 1;
             this.startButton.Text = "Start";
             this.startButton.UseVisualStyleBackColor = false;
@@ -116,9 +120,9 @@
             this.stopButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.stopButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.stopButton.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.stopButton.Location = new System.Drawing.Point(458, 208);
+            this.stopButton.Location = new System.Drawing.Point(452, 195);
             this.stopButton.Name = "stopButton";
-            this.stopButton.Size = new System.Drawing.Size(92, 45);
+            this.stopButton.Size = new System.Drawing.Size(105, 54);
             this.stopButton.TabIndex = 2;
             this.stopButton.Text = "Stop";
             this.stopButton.UseVisualStyleBackColor = false;
@@ -135,7 +139,7 @@
             this.RatSelection.ForeColor = System.Drawing.SystemColors.MenuHighlight;
             this.RatSelection.FormattingEnabled = true;
             this.RatSelection.IntegralHeight = false;
-            this.RatSelection.Location = new System.Drawing.Point(714, 79);
+            this.RatSelection.Location = new System.Drawing.Point(716, 93);
             this.RatSelection.Name = "RatSelection";
             this.RatSelection.Size = new System.Drawing.Size(101, 21);
             this.RatSelection.Sorted = true;
@@ -151,23 +155,23 @@
             // display_time
             // 
             this.display_time.AutoSize = true;
-            this.display_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.display_time.Font = new System.Drawing.Font("Microsoft Sans Serif", 60F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.display_time.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.display_time.Location = new System.Drawing.Point(350, 110);
+            this.display_time.Location = new System.Drawing.Point(326, 68);
             this.display_time.MinimumSize = new System.Drawing.Size(200, 100);
             this.display_time.Name = "display_time";
-            this.display_time.Size = new System.Drawing.Size(200, 100);
+            this.display_time.Size = new System.Drawing.Size(237, 100);
             this.display_time.TabIndex = 5;
             this.display_time.Text = "00:00";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Courier New", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.RoyalBlue;
-            this.label1.Location = new System.Drawing.Point(710, 55);
+            this.label1.Location = new System.Drawing.Point(709, 67);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(109, 20);
+            this.label1.Size = new System.Drawing.Size(120, 22);
             this.label1.TabIndex = 6;
             this.label1.Text = "Rat Number";
             // 
@@ -510,7 +514,7 @@
             this.selectButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.selectButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.selectButton.ForeColor = System.Drawing.Color.Black;
-            this.selectButton.Location = new System.Drawing.Point(724, 110);
+            this.selectButton.Location = new System.Drawing.Point(727, 120);
             this.selectButton.Name = "selectButton";
             this.selectButton.Size = new System.Drawing.Size(75, 23);
             this.selectButton.TabIndex = 30;
@@ -521,11 +525,11 @@
             // ratSelectionLabel
             // 
             this.ratSelectionLabel.AutoSize = true;
-            this.ratSelectionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ratSelectionLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ratSelectionLabel.ForeColor = System.Drawing.Color.Cyan;
-            this.ratSelectionLabel.Location = new System.Drawing.Point(762, 87);
+            this.ratSelectionLabel.Location = new System.Drawing.Point(727, 97);
             this.ratSelectionLabel.Name = "ratSelectionLabel";
-            this.ratSelectionLabel.Size = new System.Drawing.Size(0, 20);
+            this.ratSelectionLabel.Size = new System.Drawing.Size(0, 25);
             this.ratSelectionLabel.TabIndex = 31;
             // 
             // totalErrNum
@@ -663,6 +667,37 @@
             this.label10.TabIndex = 0;
             this.label10.Text = "Percent Correct Outbound";
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.ForeColor = System.Drawing.SystemColors.Control;
+            this.label12.Location = new System.Drawing.Point(31, 499);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(156, 16);
+            this.label12.TabIndex = 41;
+            this.label12.Text = "Next Correct Location";
+            // 
+            // panel13
+            // 
+            this.panel13.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel13.Controls.Add(this.nextCorrect);
+            this.panel13.Location = new System.Drawing.Point(43, 524);
+            this.panel13.Name = "panel13";
+            this.panel13.Size = new System.Drawing.Size(125, 46);
+            this.panel13.TabIndex = 42;
+            // 
+            // nextCorrect
+            // 
+            this.nextCorrect.AutoSize = true;
+            this.nextCorrect.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nextCorrect.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.nextCorrect.Location = new System.Drawing.Point(24, 10);
+            this.nextCorrect.Name = "nextCorrect";
+            this.nextCorrect.Size = new System.Drawing.Size(73, 20);
+            this.nextCorrect.TabIndex = 43;
+            this.nextCorrect.Text = "Feeder 2";
+            // 
             // W_Maze_Gui
             // 
             this.AllowDrop = true;
@@ -670,6 +705,8 @@
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.ClientSize = new System.Drawing.Size(908, 661);
+            this.Controls.Add(this.panel13);
+            this.Controls.Add(this.label12);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.panel12);
             this.Controls.Add(this.panel11);
@@ -729,6 +766,8 @@
             this.panel11.PerformLayout();
             this.panel12.ResumeLayout(false);
             this.panel12.PerformLayout();
+            this.panel13.ResumeLayout(false);
+            this.panel13.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -788,6 +827,9 @@
         private System.Windows.Forms.Panel panel12;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label percentCorrect;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Panel panel13;
+        private System.Windows.Forms.Label nextCorrect;
     }
 }
 
