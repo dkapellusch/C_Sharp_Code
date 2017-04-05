@@ -15,7 +15,7 @@ namespace W_Maze_Gui
         }
         public static string EnumerableToString<T>(this IEnumerable<T> message)
         {
-            return string.join(", ",message);
+            return string.join("",message);
             
         }
 
