@@ -15,12 +15,8 @@ namespace W_Maze_Gui
         }
         public static string EnumerableToString<T>(this IEnumerable<T> message)
         {
-            string result = "";
-            foreach (var elem in message)
-            {
-                result += elem;
-            }
-            return result;
+            return string.join(", ",message);
+            
         }
 
         public static string ToAnsii(this byte[] byteMessage)
