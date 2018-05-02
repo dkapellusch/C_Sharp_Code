@@ -8,6 +8,7 @@ namespace W_Maze_Gui
         public static StreamWriter TimestampCsv;
         public static StreamReader RatdataReader;
         public static StreamWriter RatdataWriter;
+        public static StreamWriter initial;
         private const string RatDataPath = @"C:\Users\akoutia\Documents\Barnes Lab\Wmaze\RatData\RatData.Csv";
         private const string RatDirectoryPath = @"C:\Users\akoutia\Documents\Barnes Lab\Wmaze\RatData\";
         public static void OpenRatDataCsv()
@@ -30,11 +31,21 @@ namespace W_Maze_Gui
         public static void OpenSessionCsv(string number)
         {
             if (!Directory.Exists(RatDirectoryPath + number))
+            {
                 Directory.CreateDirectory(RatDirectoryPath + number);
-            SessionCsv =
-                new StreamWriter(
-                    RatDirectoryPath + number + $@"\SessionInfo_{number}.csv",
-                    true);
+                initial =
+                    new StreamWriter(
+                        RatDirectoryPath + number + $@"\SessionInfo_{number}.csv",
+                        true);
+                initial.Write("Session,Experimenter,Day/Time,Session Length,Correct,Correct Outbound,Initial Error,Outbound Errors,Inbound Errors,Repeat Errors,Total Errors,Total Feeder Visits,Notes\n");
+                initial.Close();
+            }
+
+                SessionCsv =
+                    new StreamWriter(
+                        RatDirectoryPath + number + $@"\SessionInfo_{number}.csv",
+                        true);
+           
         }
 
         public static void OpenTimestampCsv(string number, string session)

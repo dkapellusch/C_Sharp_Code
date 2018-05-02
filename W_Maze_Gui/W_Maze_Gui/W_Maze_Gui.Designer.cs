@@ -29,7 +29,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(W_Maze_Gui));
-            this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
             this.startButton = new System.Windows.Forms.Button();
             this.stopButton = new System.Windows.Forms.Button();
             this.RatSelection = new System.Windows.Forms.ComboBox();
@@ -84,6 +83,8 @@
             this.label12 = new System.Windows.Forms.Label();
             this.panel13 = new System.Windows.Forms.Panel();
             this.nextCorrect = new System.Windows.Forms.Label();
+            this.acquireButton = new System.Windows.Forms.Button();
+            this.recordButton = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -698,6 +699,31 @@
             this.nextCorrect.TabIndex = 43;
             this.nextCorrect.Text = "Feeder 2";
             // 
+            // acquireButton
+            // 
+            this.acquireButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.acquireButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F);
+            this.acquireButton.ForeColor = System.Drawing.Color.Yellow;
+            this.acquireButton.Location = new System.Drawing.Point(688, 209);
+            this.acquireButton.Name = "acquireButton";
+            this.acquireButton.Size = new System.Drawing.Size(69, 40);
+            this.acquireButton.TabIndex = 43;
+            this.acquireButton.Text = "ACQUIRE";
+            this.acquireButton.UseVisualStyleBackColor = true;
+            this.acquireButton.Click += new System.EventHandler(this.acquireButton_Click);
+            // 
+            // recordButton
+            // 
+            this.recordButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.recordButton.ForeColor = System.Drawing.Color.Fuchsia;
+            this.recordButton.Location = new System.Drawing.Point(769, 209);
+            this.recordButton.Name = "recordButton";
+            this.recordButton.Size = new System.Drawing.Size(69, 40);
+            this.recordButton.TabIndex = 44;
+            this.recordButton.Text = "RECORD";
+            this.recordButton.UseVisualStyleBackColor = true;
+            this.recordButton.Click += new System.EventHandler(this.recordButton_Click);
+            // 
             // W_Maze_Gui
             // 
             this.AllowDrop = true;
@@ -705,6 +731,8 @@
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
             this.ClientSize = new System.Drawing.Size(908, 661);
+            this.Controls.Add(this.recordButton);
+            this.Controls.Add(this.acquireButton);
             this.Controls.Add(this.panel13);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label10);
@@ -775,7 +803,6 @@
 
         #endregion
 
-        private System.IO.Ports.SerialPort serialPort1;
         private System.Windows.Forms.Button startButton;
         private System.Windows.Forms.Button stopButton;
         private System.Windows.Forms.ComboBox RatSelection;
@@ -830,6 +857,8 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Panel panel13;
         private System.Windows.Forms.Label nextCorrect;
+        private System.Windows.Forms.Button acquireButton;
+        private System.Windows.Forms.Button recordButton;
     }
 }
 
